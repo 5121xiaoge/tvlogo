@@ -2,3 +2,7 @@ lib/config.php
 socks5/cache/*.json
 resp/logs/
 *.log
+*.zip
+backup-*/
+Thumbs.db
+desktop.ini

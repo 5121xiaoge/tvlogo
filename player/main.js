@@ -33,7 +33,7 @@ const supportedFormats = ['mp4', 'm3u8', 'flv', 'webm', 'mkv', 'mov', 'avi', 'wm
 
 let transformSettings = { rotate: 0, scaleX: 1, scaleY: 1, zoom: 100 };
 let filterSettings = { brightness: 100, contrast: 100, saturation: 100, sharpen: 0 };
-let backgroundSettings = { url: 'https://my.bing.xo.je/302/uhd_302.php', blur: 0 };
+let backgroundSettings = { url: '', blur: 0 };
 
 const filterPresets = {
   vibrant: { brightness: 105, contrast: 110, saturation: 150, sharpen: 0 },
@@ -593,7 +593,7 @@ function handleVideoEnded() {
 function globalSeekedHandler() {
   console.log('seeked triggered');
   if (activePlayer) {
-    // 恢复之前的播放状态 [cite: 91]
+    // 恢复之前的播放状态
     if (wasPlayingBeforeSeek) {
       activePlayer.play().catch(e => console.error('播放失败:', e));
       wasPlayingBeforeSeek = false;
@@ -601,7 +601,7 @@ function globalSeekedHandler() {
     isSeeking = false;
     isKeyboardSeeking = false;
     pendingSeekTime = null;
-    startProgressBarUpdate(); // 重新开启进度条自动更新 [cite: 92]
+    startProgressBarUpdate(); // 重新开启进度条自动更新
   }
 }
 
@@ -615,33 +615,33 @@ function setupSeekEvents() {
   };
 
   const handleSeekStart = function(e) {
-    // 允许滑动，不阻止默认行为以确保 range 控件正常工作，但标记正在拖拽 [cite: 94]
+    // 允许滑动，不阻止默认行为以确保 range 控件正常工作，但标记正在拖拽
     isSeeking = true;
     if (activePlayer) {
       wasPlayingBeforeSeek = !activePlayer.paused;
-      activePlayer.pause(); // 拖拽时暂停 [cite: 94]
-      stopProgressBarUpdate(); // 停止自动更新进度条，防止跳变 [cite: 94]
+      activePlayer.pause(); // 拖拽时暂停
+      stopProgressBarUpdate(); // 停止自动更新进度条，防止跳变
     }
   };
 
   const handleSeekEnd = function(e) {
     if (activePlayer && isSeeking) {
-      const targetTime = parseFloat(this.value); // 获取拖动后的值 [cite: 95]
+      const targetTime = parseFloat(this.value); // 获取拖动后的值
       pendingSeekTime = targetTime;
       
       // 执行跳转
-      activePlayer.currentTime = targetTime; // [cite: 96]
+      activePlayer.currentTime = targetTime; //
       
-      // 如果之前是播放状态，跳转完成后由 globalSeekedHandler 接管播放 [cite: 91]
+      // 如果之前是播放状态，跳转完成后由 globalSeekedHandler 接管播放
     }
   };
 
   const handleSeekInput = function() {
     const time = parseFloat(this.value);
-    syncSliders(time); // 拖动过程中实时更新 UI 时间显示 [cite: 97, 98]
+    syncSliders(time); // 拖动过程中实时更新 UI 时间显示
   };
 
-  // 绑定外部进度条 [cite: 98, 99]
+  // 绑定外部进度条
   if (seekSlider) {
     seekSlider.addEventListener('mousedown', handleSeekStart);
     seekSlider.addEventListener('mouseup', handleSeekEnd);
@@ -652,7 +652,7 @@ function setupSeekEvents() {
     seekSlider.addEventListener('touchend', handleSeekEnd, { passive: true });
   }
 
-  // 绑定视频内进度条 [cite: 104, 105]
+  // 绑定视频内进度条
   if (inVideoSeekSlider) {
     inVideoSeekSlider.addEventListener('mousedown', handleSeekStart);
     inVideoSeekSlider.addEventListener('mouseup', handleSeekEnd);
@@ -1460,12 +1460,13 @@ function removeHistoryItem(index) {
 }
 
 function clearHistory() {
-  if (confirm('确定要清空所有播放历史吗？')) {
+  (window.uiConfirm || function (m) { return Promise.resolve(confirm(m)); })('确定要清空所有播放历史吗？').then((ok) => {
+            if (!ok) return;
     playbackHistory = [];
     localStorage.removeItem('playbackHistory');
     renderHistory();
     currentPlayingHistoryIndex = -1;
-  }
+  });
 }
 
 function startEditMode(index) {
@@ -1732,7 +1733,7 @@ function setupBackgroundSettings() {
   const resetBtn = document.getElementById('resetBackgroundBtn');
   if (resetBtn) {
     resetBtn.addEventListener('click', () => {
-      backgroundSettings = { url: 'https://my.bing.xo.je/302/uhd_302.php', blur: 0 };
+      backgroundSettings = { url: '', blur: 0 };
       if (urlInput) urlInput.value = backgroundSettings.url;
       if (blurSlider) blurSlider.value = 0;
       if (blurValue) blurValue.textContent = '0px';
@@ -1877,7 +1878,7 @@ function loadAllSettings() {
   // 加载背景设置
   const savedBg = localStorage.getItem('backgroundSettings');
   if (savedBg) {
-    Object.assign(backgroundSettings, JSON.parse(savedBg));
+    Object.assign(backgroundSettings, JSON.parse(savedBg)); if (/my\.bing\.xo\.je/.test(backgroundSettings.url || '')) backgroundSettings.url = '';
     const urlInput = document.getElementById('backgroundURL');
     const blurSlider = document.getElementById('backgroundBlurSlider');
     const blurValue = document.getElementById('backgroundBlurValue');

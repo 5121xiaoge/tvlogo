@@ -1,0 +1,159 @@
+/*!
+ * 皮肤 · SOCKS5 代理验证（socks5）
+ * 定位：网络运维控制台 —— 固定深色 / 青色强调 / 等宽字体 / 细边框无阴影
+ * 布局（电脑端）：
+ *   ┌ 配置 440px（代理 + 直播源 + 选项） ┬ 测试结果（指标条 + 代理卡片）┐
+ *   ├ 测试记录 ─────────────────────────┴ 运行日志（终端样式）─────────┤
+ */
+html[data-page="socks5"] {
+  color-scheme: dark;
+  --t-brand: #0891b2; --t-brand-hover: #0e7490; --t-brand-active: #155e75; --t-brand-2: #22d3ee; --t-on-brand: #fff;
+  --t-brand-soft: rgba(34, 211, 238, .10); --t-brand-soft-2: rgba(34, 211, 238, .18); --t-brand-border: rgba(34, 211, 238, .35);
+  --t-success: #22c55e; --t-success-hover: #16a34a;
+  --t-success-soft: rgba(34, 197, 94, .12); --t-success-text: #4ade80; --t-success-border: rgba(34, 197, 94, .32);
+  --t-warning-soft: rgba(245, 158, 11, .12); --t-warning-text: #fbbf24; --t-warning-border: rgba(245, 158, 11, .32);
+  --t-danger: #ef4444; --t-danger-hover: #dc2626;
+  --t-danger-soft: rgba(239, 68, 68, .12); --t-danger-soft-2: rgba(239, 68, 68, .2); --t-danger-text: #f87171; --t-danger-border: rgba(239, 68, 68, .34);
+  --t-info-soft: rgba(34, 211, 238, .08); --t-info-text: #67e8f9; --t-info-border: rgba(34, 211, 238, .25);
+  --t-bg: #060a13; --t-bg-top: #0a1424;
+  --t-surface: #0d1422; --t-surface-2: #111a2b; --t-surface-3: #172236; --t-code-bg: #070c16;
+  --t-border: #1c283c; --t-border-subtle: #152033; --t-border-strong: #26354e; --t-border-hover: #34496a;
+  --t-text: #e2e8f0; --t-text-2: #94a3b8; --t-text-3: #7b8aa3; --t-placeholder: #52627c;
+  --t-shadow-xs: none; --t-shadow-sm: 0 1px 0 rgba(255, 255, 255, .02) inset; --t-shadow-md: 0 12px 28px -10px rgba(0, 0, 0, .7);
+  --t-ring: 0 0 0 3px rgba(34, 211, 238, .25);
+  --t-btn-r: 6px; --t-input-r: 6px; --t-panel-r: 10px; --t-panel-shadow: inset 0 1px 0 rgba(255, 255, 255, .03);
+  --t-btn2-bg: #111a2b; --t-btn2-hover: #172236;
+}
+html[data-page="socks5"] body {
+  background-color: var(--t-bg);
+  background-image:
+    radial-gradient(900px 380px at 50% -160px, rgba(34, 211, 238, .12), transparent 70%),
+    linear-gradient(rgba(148, 163, 184, .035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(148, 163, 184, .035) 1px, transparent 1px);
+  background-size: 100% 100%, 32px 32px, 32px 32px;
+  background-attachment: scroll, fixed, fixed;
+  color: var(--t-text);
+}
+
+/* 页头：控制台标题栏 */
+html[data-page="socks5"] .container > header { border-bottom-color: var(--t-border); }
+html[data-page="socks5"] .container > header .title-icon {
+  background: rgba(34, 211, 238, .10) !important; background-image: none !important;
+  border: 1px solid rgba(34, 211, 238, .4); color: var(--t-brand-2) !important;
+  box-shadow: 0 0 18px -4px rgba(34, 211, 238, .55) !important;
+}
+html[data-page="socks5"] .container > header .title-icon i { color: var(--t-brand-2) !important; }
+html[data-page="socks5"] .container > header .subtitle { font-family: var(--ui-mono); font-size: 12.5px; color: var(--t-text-3); }
+html[data-page="socks5"] .container > header .subtitle::before { content: "$ "; color: var(--t-brand-2); }
+
+/* 面板标题：小号标签风格 */
+html[data-page="socks5"] .panel-title { font-size: 13.5px; letter-spacing: .02em; color: var(--t-text); }
+html[data-page="socks5"] .panel-title > i:first-child { background: transparent; border: 1px solid var(--t-brand-border); color: var(--t-brand-2); border-radius: 6px; }
+html[data-page="socks5"] .panel { background: linear-gradient(180deg, var(--t-surface-2), var(--t-surface) 120px); }
+
+/* 输入：终端风格 */
+html[data-page="socks5"] :is(textarea, input[type="text"], input[type="number"], input[type="password"], select) { background-color: var(--t-code-bg); font-family: var(--ui-mono); font-size: 13px; }
+html[data-page="socks5"] textarea { min-height: 120px; }
+html[data-page="socks5"] .form-group { margin-bottom: 12px; }
+html[data-page="socks5"] :is(.input-counter-proxy, .input-counter-stream, .input-counter) { color: var(--t-text-3); font-family: var(--ui-mono); font-size: 12px; }
+html[data-page="socks5"] .counter-badge { background: var(--t-brand-soft); color: var(--t-brand-2); border-color: var(--t-brand-border); }
+
+/* 按钮 */
+html[data-page="socks5"] #full-test-btn { box-shadow: 0 0 0 1px rgba(34, 211, 238, .25), 0 8px 22px -8px rgba(8, 145, 178, .8); font-weight: 600; }
+html[data-page="socks5"] #test-proxies-btn { background: transparent; color: var(--t-brand-2); border-color: var(--t-brand-border); }
+html[data-page="socks5"] #test-proxies-btn:hover { background: var(--t-brand-soft); color: var(--t-brand-2); }
+html[data-page="socks5"] .scan-controls { display: grid; grid-template-columns: 1fr 1.3fr .8fr; gap: 8px; }
+html[data-page="socks5"] .config-actions { display: flex; flex-wrap: wrap; gap: 8px; margin: 4px 0 12px; }
+html[data-page="socks5"] .config-actions .btn { flex: 0 0 auto; min-width: 0; }
+html[data-page="socks5"] .config-actions #clear-all-config { margin-left: auto; }
+html[data-page="socks5"] .checkbox-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+html[data-page="socks5"] .checkbox-item { padding: 8px 10px; border: 1px solid var(--t-border); border-radius: 6px; background: var(--t-code-bg); }
+
+/* 指标条：等宽数字 */
+html[data-page="socks5"] .response-info { display: grid; grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); gap: 8px; }
+html[data-page="socks5"] .response-info-item { flex-direction: column; align-items: flex-start; gap: 2px; padding: 8px 12px; background: var(--t-code-bg); border-radius: 6px; }
+html[data-page="socks5"] .response-info-value { font-family: var(--ui-mono); font-size: 16px; color: var(--t-text); }
+html[data-page="socks5"] .response-info-item:nth-child(2) .response-info-value { color: var(--t-success-text); }
+html[data-page="socks5"] .response-info-item:nth-child(3) .response-info-value { color: var(--t-danger-text); }
+
+/* 标签页：青色下划线 + 发光 */
+html[data-page="socks5"] .tab.active { color: var(--t-brand-2); border-bottom-color: var(--t-brand-2); text-shadow: 0 0 12px rgba(34, 211, 238, .35); }
+
+/* 代理卡片 / 直播源条目 */
+html[data-page="socks5"] .proxy-card { background: var(--t-code-bg); }
+html[data-page="socks5"] .proxy-card-header { background: var(--t-surface-2); }
+html[data-page="socks5"] .stream-item { background: var(--t-surface); }
+html[data-page="socks5"] .stream-url { color: var(--t-text-2); }
+html[data-page="socks5"] .stream-group { background: rgba(244, 114, 182, .14); color: #f9a8d4; }
+html[data-page="socks5"] .ip-location, html[data-page="socks5"] .real-ip-info { color: var(--t-text-2); }
+
+/* 表格 */
+html[data-page="socks5"] .batch-result-table { font-family: var(--ui-mono); }
+html[data-page="socks5"] .batch-result-table th { background: var(--t-surface-3); color: var(--t-text-2); }
+
+/* 日志：终端 */
+html[data-page="socks5"] :is(.log-box, #log-container) { background: #04070e; border-color: var(--t-border); color: #cbd5e1; }
+html[data-page="socks5"] .log-message.info { color: #67e8f9; }
+html[data-page="socks5"] .log-message.success { color: #4ade80; }
+html[data-page="socks5"] .log-message.error { color: #f87171; }
+
+/* 历史记录 */
+html[data-page="socks5"] .history-item { background: var(--t-code-bg); }
+html[data-page="socks5"] :is(.history-type, .history-count-display) { color: var(--t-text-2); }
+
+/* 进度条 */
+html[data-page="socks5"] .progress-container { height: 6px; background: var(--t-surface-3); }
+html[data-page="socks5"] .progress-container .progress-bar { background: linear-gradient(90deg, #0891b2, #22d3ee); box-shadow: 0 0 12px rgba(34, 211, 238, .6); }
+
+/* 空状态 / 页脚 */
+html[data-page="socks5"] :is(.no-results, .no-results1) i { color: var(--t-brand-2); opacity: .35; }
+html[data-page="socks5"] .footer { background: transparent !important; border-top-color: var(--t-border) !important; }
+
+/* 弹窗 / 提示跟随深色 */
+html[data-page="socks5"] :is(.ui-toast, .ui-dialog) { background: #0d1422; color: #e2e8f0; border-color: #1c283c; }
+html[data-page="socks5"] .ui-dialog-title { color: #e2e8f0; }
+html[data-page="socks5"] .ui-dialog-msg { color: #94a3b8; }
+html[data-page="socks5"] .ui-dialog-btn:not(.is-primary):not(.is-danger) { background: #111a2b; border-color: #26354e; color: #e2e8f0; }
+html[data-page="socks5"] .ui-dialog.is-danger, html[data-page="socks5"] .ui-dialog { --dc-soft: rgba(239, 68, 68, .14); }
+html[data-page="socks5"] .ui-dialog:not(.is-danger) { --dc: #22d3ee; --dc-soft: rgba(34, 211, 238, .12); }
+html[data-page="socks5"] .ui-dialog-btn.is-primary { background: #0891b2; border-color: #0891b2; }
+html[data-page="socks5"] .ui-home { background: var(--t-surface) !important; border-color: var(--t-border) !important; color: var(--t-text-2) !important; }
+html[data-page="socks5"] .ui-top { background: var(--t-surface-2); color: var(--t-brand-2); }
+
+/* 旧样式里残留的浅色块统一改深 */
+html[data-page="socks5"] .tab-content { background: transparent; }
+html[data-page="socks5"] :is(.stopped-item, #test-info) { background: var(--t-surface-2); border-color: var(--t-border); color: var(--t-text-2); }
+html[data-page="socks5"] .history-time { background: var(--t-surface-3); color: var(--t-text-2); }
+html[data-page="socks5"] .history-count-display { background: var(--t-brand-soft); color: var(--t-brand-2); }
+html[data-page="socks5"] .compact-group-title { background: var(--t-surface-2); color: var(--t-text); }
+html[data-page="socks5"] [style*="color: #666"] { color: var(--t-text-3) !important; }
+html[data-page="socks5"] ::-webkit-scrollbar-track { background: transparent !important; }
+html[data-page="socks5"] ::-webkit-scrollbar-thumb { background-color: #26354e; }
+
+/* ===== 电脑端 ===== */
+@media (min-width: 1024px) {
+  html[data-page="socks5"] .container { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr); gap: 0 20px; }
+  html[data-page="socks5"] .container > * { grid-column: 1 / -1; }
+  html[data-page="socks5"] .container > .history-panel { grid-column: 1; order: 0; margin-top: 0; }
+  html[data-page="socks5"] .container > .log-panel { grid-column: 2; order: 0; margin-top: 0; }
+  html[data-page="socks5"] .main-content { display: grid; grid-template-columns: minmax(380px, 440px) minmax(0, 1fr); gap: 20px; align-items: start; }
+  html[data-page="socks5"] .main-content > .panel { min-width: 0; max-width: none; flex: none; }
+  html[data-page="socks5"] .results-panel { min-height: 100%; }
+  html[data-page="socks5"] :is(#history-list-container, #log-box) { max-height: 360px; overflow-y: auto; }
+}
+
+/* ===== 平板 / 移动端 ===== */
+@media (max-width: 1023px) {
+  html[data-page="socks5"] .main-content { display: flex; flex-direction: column; gap: 14px; }
+  html[data-page="socks5"] .main-content > .panel { min-width: 0; max-width: none; width: 100%; }
+  html[data-page="socks5"] .container > :is(.history-panel, .log-panel) { margin-top: 14px; }
+}
+@media (max-width: 640px) {
+  html[data-page="socks5"] .scan-controls { grid-template-columns: 1fr 1fr; }
+  html[data-page="socks5"] .scan-controls #full-test-btn { grid-column: 1 / -1; order: -1; }
+  html[data-page="socks5"] .checkbox-grid { grid-template-columns: 1fr; }
+  html[data-page="socks5"] .config-actions .btn { flex: 1 1 calc(50% - 4px); }
+  html[data-page="socks5"] .config-actions #clear-all-config { margin-left: 0; flex-basis: 100%; }
+  html[data-page="socks5"] .response-info { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  html[data-page="socks5"] .tabs { overflow-x: auto; flex-wrap: nowrap; }
+}

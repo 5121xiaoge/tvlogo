@@ -1,0 +1,138 @@
+/*!
+ * 皮肤 · 直播源格式转换（txt2m3u）
+ * 定位：编辑器工作台 —— 青绿色 / 点阵背景 / 顶部工具条 / 左右对照编辑区
+ * 布局（电脑端）：
+ *   ┌──────────── 工具条（吸顶）────────────┐
+ *   │ 输入编辑区        │ 转换结果            │
+ *   │ 转换配置          │                     │
+ *   └───────────────────┴─────────────────────┘
+ * 移动端：输入 → 配置 → 转换结果，操作工具条固定在屏幕底部
+ */
+html[data-page="txt2m3u"] {
+  --t-brand: #0f766e; --t-brand-hover: #115e59; --t-brand-active: #134e4a; --t-brand-2: #14b8a6;
+  --t-brand-soft: #f0fdfa; --t-brand-soft-2: #ccfbf1; --t-brand-border: #99f6e4;
+  --t-bg: #f2f6f5; --t-bg-top: #e3efec;
+  --t-surface-2: #f7faf9; --t-surface-3: #edf3f1; --t-code-bg: #fbfdfc;
+  --t-border: #dfe7e4; --t-border-subtle: #ebf0ee; --t-border-strong: #cdd8d4;
+  --t-btn-r: 8px; --t-panel-r: 12px;
+}
+@media (prefers-color-scheme: dark) {
+  html[data-page="txt2m3u"] {
+    --t-brand: #14b8a6; --t-brand-hover: #0d9488; --t-brand-2: #2dd4bf; --t-on-brand: #042f2e;
+    --t-brand-soft: rgba(20, 184, 166, .12); --t-brand-soft-2: rgba(20, 184, 166, .22); --t-brand-border: rgba(45, 212, 191, .35);
+    --t-bg: #071412; --t-bg-top: #0b201d;
+    --t-surface: #0e1c1a; --t-surface-2: #12231f; --t-surface-3: #182d29; --t-code-bg: #0a1715;
+    --t-border: #1d332e; --t-border-subtle: #162925; --t-border-strong: #2a453f;
+  }
+}
+
+/* 背景：淡点阵 */
+html[data-page="txt2m3u"] body {
+  background-color: var(--t-bg);
+  background-image:
+    radial-gradient(circle at 1px 1px, color-mix(in srgb, var(--t-brand) 9%, transparent) 1px, transparent 0),
+    linear-gradient(180deg, var(--t-bg-top), var(--t-bg) 320px);
+  background-size: 22px 22px, 100% 100%;
+  background-repeat: repeat, no-repeat;
+  background-attachment: fixed, scroll;
+}
+
+/* 页头：白色条形卡片 + 左侧色条 */
+html[data-page="txt2m3u"] .container > header {
+  margin-bottom: 16px; padding: 14px 20px 14px 22px;
+  background: var(--t-surface); border: 1px solid var(--t-border); border-radius: 12px;
+  box-shadow: inset 4px 0 0 var(--t-brand), var(--t-shadow-xs);
+}
+html[data-page="txt2m3u"] .container > header .subtitle { margin-top: 2px; }
+html[data-page="txt2m3u"] .ui-home { margin-bottom: 10px !important; }
+
+/* ===== 电脑端：网格布局 ===== */
+@media (min-width: 900px) {
+  html[data-page="txt2m3u"] .container { max-width: 1520px; padding: 20px 28px 28px; }
+  html[data-page="txt2m3u"] .main-content {
+    display: grid; gap: 16px 20px;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    grid-template-rows: auto minmax(460px, 1fr) auto;
+    grid-template-areas: "tools tools" "input output" "config output";
+  }
+  html[data-page="txt2m3u"] .left-panel,
+  html[data-page="txt2m3u"] .right-panel { display: contents; }
+  html[data-page="txt2m3u"] .input-section { grid-area: input; }
+  html[data-page="txt2m3u"] .config-collapse { grid-area: config; align-self: start; }
+  html[data-page="txt2m3u"] .output-section { grid-area: output; }
+  html[data-page="txt2m3u"] .button-group { grid-area: tools; }
+
+  /* 工具条：一行、吸顶、毛玻璃 */
+  html[data-page="txt2m3u"] .button-group {
+    position: sticky; top: 10px; z-index: 20;
+    display: flex; flex-wrap: wrap; align-items: center; gap: 8px;
+    padding: 10px 12px; border-radius: 12px;
+    background: color-mix(in srgb, var(--t-surface) 88%, transparent);
+    -webkit-backdrop-filter: saturate(160%) blur(10px); backdrop-filter: saturate(160%) blur(10px);
+    box-shadow: var(--t-shadow-md);
+  }
+  html[data-page="txt2m3u"] .button-group .btn { flex: 0 0 auto; width: auto; min-height: 36px; padding: 0 14px; }
+  /* 主操作放左侧，导出类放右侧 */
+  html[data-page="txt2m3u"] .button-group .btn-warning { margin-left: auto; }
+  html[data-page="txt2m3u"] .button-group .btn-warning { position: relative; }
+  html[data-page="txt2m3u"] .button-group .btn-warning::before {
+    content: ""; position: absolute; left: -9px; top: 8px; bottom: 8px; width: 1px; background: var(--t-border);
+  }
+  html[data-page="txt2m3u"] :is(.input-section, .output-section) { display: flex; flex-direction: column; }
+  html[data-page="txt2m3u"] :is(.input-section, .output-section) textarea { flex: 1; min-height: 420px; resize: none; }
+}
+
+/* 编辑区：像代码编辑器 */
+html[data-page="txt2m3u"] :is(.input-section, .output-section) textarea {
+  border-radius: 8px; background: var(--t-code-bg);
+  font-size: 13px; line-height: 1.65; tab-size: 4;
+  box-shadow: none;
+}
+html[data-page="txt2m3u"] .output-section textarea { color: color-mix(in srgb, var(--t-text) 88%, var(--t-brand)); }
+html[data-page="txt2m3u"] .section-title { justify-content: flex-start; }
+html[data-page="txt2m3u"] .output-section .section-title::after {
+  content: "只读"; margin-left: auto; height: 20px; padding: 0 8px; display: inline-flex; align-items: center;
+  border-radius: 999px; background: var(--t-surface-3); color: var(--t-text-3); font-size: 11.5px; font-weight: 500;
+}
+
+/* 上传区 */
+html[data-page="txt2m3u"] .file-upload-section { border-color: color-mix(in srgb, var(--t-brand) 30%, var(--t-border)); background: var(--t-brand-soft); }
+html[data-page="txt2m3u"] .file-upload-section .btn { background: var(--t-surface) !important; border-color: var(--t-brand-border) !important; color: var(--t-brand) !important; }
+
+/* 按钮：主 / 描边 / 成功 / 中性 */
+html[data-page="txt2m3u"] .button-group .btn-success { background: var(--t-brand); border-color: var(--t-brand); color: var(--t-on-brand); }
+html[data-page="txt2m3u"] .button-group .btn-success:hover { background: var(--t-brand-hover); border-color: var(--t-brand-hover); }
+html[data-page="txt2m3u"] .button-group .btn-primary { background: var(--t-brand); border-color: var(--t-brand); color: var(--t-on-brand); }
+html[data-page="txt2m3u"] .button-group .btn-error i { color: var(--t-brand); }
+
+/* 配置折叠区 */
+html[data-page="txt2m3u"] .checkbox-group { padding: 6px 0; margin: 0; align-items: flex-start; line-height: 1.5; }
+html[data-page="txt2m3u"] .checkbox-group input { margin-top: 2px; flex: none; }
+
+/* ===== 移动端 / 平板 ===== */
+@media (max-width: 899px) {
+  html[data-page="txt2m3u"] .main-content { display: flex; flex-direction: column; gap: 14px; }
+  html[data-page="txt2m3u"] .left-panel { display: contents; }
+  html[data-page="txt2m3u"] .input-section { order: 1; }
+  html[data-page="txt2m3u"] .config-collapse { order: 2; }
+  html[data-page="txt2m3u"] .button-group { order: 3; }
+  html[data-page="txt2m3u"] .right-panel { order: 4; }
+  html[data-page="txt2m3u"] :is(.input-section, .output-section) textarea { min-height: 220px; }
+  /* 工具条固定在底部，随时可点 */
+  html[data-page="txt2m3u"] .button-group {
+    position: sticky; bottom: max(8px, env(safe-area-inset-bottom)); z-index: 20;
+    grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; padding: 10px;
+    background: color-mix(in srgb, var(--t-surface) 92%, transparent);
+    -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
+    box-shadow: 0 -6px 20px -8px rgba(0, 0, 0, .18), var(--t-shadow-sm);
+  }
+  html[data-page="txt2m3u"] .button-group .btn { min-height: 42px; padding: 0 8px; font-size: 13.5px; }
+  html[data-page="txt2m3u"] .file-upload-section { flex-wrap: wrap; gap: 8px; }
+  html[data-page="txt2m3u"] .file-info { margin: 0; width: 100%; }
+}
+@media (max-width: 899px) {
+  html[data-page="txt2m3u"] .ui-top { bottom: calc(max(8px, env(safe-area-inset-bottom)) + 150px); }
+}
+@media (max-width: 380px) {
+  html[data-page="txt2m3u"] .button-group { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}

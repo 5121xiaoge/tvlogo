@@ -1,0 +1,830 @@
+/*!
+ * 直播源工具箱 · 企业级主题层 theme.css
+ * 引入顺序：页面自身样式 → ../assets/ui.css → ../assets/theme.css
+ * 作用范围（由 ui.js 在 <head> 阶段写到 <html> 上，无闪烁）：
+ *   html[data-page="home"]                  首页
+ *   html.ui-tool  (resp / scan / socks5 / val / txt2m3u)  工具页
+ *   html:is([data-page="player"],[data-page="player2"])                播放器（只做令牌级微调，不动播放控件）
+ * 只改视觉与布局，不改任何 id / class / 交互逻辑；删除本文件即可回到旧样式。
+ */
+
+/* ==========================================================================
+   1. 设计令牌
+   ========================================================================== */
+:root {
+  --t-brand: #2563eb;        --t-brand-hover: #1d4ed8;   --t-brand-active: #1e40af;
+  --t-brand-soft: #eff4ff;   --t-brand-soft-2: #dbe6fe;  --t-brand-border: #c3d4fd;
+
+  --t-success: #16a34a;      --t-success-hover: #15803d;
+  --t-success-soft: #ecfdf3; --t-success-text: #067647;  --t-success-border: #abefc6;
+  --t-warning: #f59e0b;
+  --t-warning-soft: #fffaeb; --t-warning-text: #b54708;  --t-warning-border: #fedf89;
+  --t-danger: #dc2626;       --t-danger-hover: #b91c1c;
+  --t-danger-soft: #fef3f2;  --t-danger-soft-2: #fee4e2; --t-danger-text: #b42318; --t-danger-border: #fecdca;
+  --t-info-soft: #eff8ff;    --t-info-text: #175cd3;     --t-info-border: #b2ddff;
+
+  --t-bg: #f5f7fa;           --t-bg-top: #e9effa;
+  --t-surface: #ffffff;      --t-surface-2: #f9fafb;     --t-surface-3: #f2f4f7;   --t-code-bg: #f8fafc;
+  --t-border: #e4e7ec;       --t-border-subtle: #eef0f3; --t-border-strong: #d0d5dd; --t-border-hover: #b8c0cc;
+  --t-text: #101828;         --t-text-2: #475467;        --t-text-3: #667085;      --t-placeholder: #98a2b3;
+
+  --t-r-sm: 6px; --t-r: 8px; --t-r-md: 10px; --t-r-lg: 12px; --t-r-xl: 16px; --t-r-pill: 999px;
+  --t-shadow-xs: 0 1px 2px rgba(16, 24, 40, .05);
+  --t-shadow-sm: 0 1px 3px rgba(16, 24, 40, .06), 0 1px 2px rgba(16, 24, 40, .04);
+  --t-shadow-md: 0 6px 16px -4px rgba(16, 24, 40, .10), 0 2px 4px -2px rgba(16, 24, 40, .05);
+  --t-shadow-lg: 0 24px 48px -12px rgba(16, 24, 40, .24);
+  --t-brand-2: #4f8bff;
+  --t-on-brand: #fff;
+  --t-ring: 0 0 0 3px color-mix(in srgb, var(--t-brand) 18%, transparent);
+  --t-h: 38px; --t-h-sm: 32px;
+  --t-ease: cubic-bezier(.2, .7, .3, 1);
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --t-brand: #3b82f6;  --t-brand-hover: #2563eb;  --t-brand-active: #1d4ed8;
+    --t-brand-soft: rgba(59, 130, 246, .14); --t-brand-soft-2: rgba(59, 130, 246, .22); --t-brand-border: rgba(96, 165, 250, .40);
+    --t-success: #22c55e; --t-success-hover: #16a34a;
+    --t-success-soft: rgba(34, 197, 94, .12); --t-success-text: #4ade80; --t-success-border: rgba(34, 197, 94, .32);
+    --t-warning-soft: rgba(245, 158, 11, .12); --t-warning-text: #fbbf24; --t-warning-border: rgba(245, 158, 11, .32);
+    --t-danger: #ef4444; --t-danger-hover: #dc2626;
+    --t-danger-soft: rgba(239, 68, 68, .12); --t-danger-soft-2: rgba(239, 68, 68, .20); --t-danger-text: #f87171; --t-danger-border: rgba(239, 68, 68, .34);
+    --t-info-soft: rgba(56, 189, 248, .10); --t-info-text: #7dd3fc; --t-info-border: rgba(56, 189, 248, .28);
+    --t-bg: #0b1120; --t-bg-top: #101b34;
+    --t-surface: #111827; --t-surface-2: #161f2e; --t-surface-3: #1e293b; --t-code-bg: #0d1424;
+    --t-border: #243045; --t-border-subtle: #1b2537; --t-border-strong: #334155; --t-border-hover: #475569;
+    --t-text: #e5e7eb; --t-text-2: #a7b0be; --t-text-3: #8a94a6; --t-placeholder: #64748b;
+    --t-shadow-xs: 0 1px 2px rgba(0, 0, 0, .30);
+    --t-shadow-sm: 0 1px 3px rgba(0, 0, 0, .35);
+    --t-shadow-md: 0 8px 20px -6px rgba(0, 0, 0, .50);
+    --t-shadow-lg: 0 24px 48px -12px rgba(0, 0, 0, .65);
+    --t-ring: 0 0 0 3px color-mix(in srgb, var(--t-brand) 38%, transparent);
+  }
+}
+
+/* 把各页面旧变量统一映射到新令牌（优先级高于页面的 :root，含深色模式） */
+html.ui-tool, html[data-page="home"] {
+  --primary-color: var(--t-brand);
+  --primary1-color: var(--t-brand);
+  --secondary-color: var(--t-success);
+  --success-color: var(--t-success);
+  --error-color: var(--t-danger);
+  --warning-color: var(--t-warning);
+  --bg-color: var(--t-bg);
+  --card-bg: var(--t-surface);
+  --text-primary: var(--t-text);
+  --text-secondary: var(--t-text-2);
+  --text-color: var(--t-text);
+  --border-color: var(--t-border);
+  --shadow: var(--t-shadow-sm);
+  --ui-primary: var(--t-brand);
+  color-scheme: light dark;
+}
+
+/* ==========================================================================
+   2. 页面骨架：背景 / 容器 / 页头 / 页脚
+   ========================================================================== */
+html.ui-tool body, html[data-page="home"] body {
+  background-color: var(--t-bg);
+  background-image: linear-gradient(180deg, var(--t-bg-top) 0, var(--t-bg) 380px);
+  background-repeat: no-repeat;
+  color: var(--t-text);
+  line-height: 1.55;
+}
+html.ui-tool .container { background: transparent; box-shadow: none; }
+@media (min-width: 769px) {
+  html.ui-tool .container { max-width: 1440px; padding: 20px 28px 32px; }
+}
+
+/* 页头：左对齐，图标块 + 标题 + 副标题 */
+html.ui-tool .container > header {
+  text-align: left;
+  margin: 0 0 20px; padding: 4px 0 18px;
+  border-bottom: 1px solid var(--t-border);
+  background: none; color: var(--t-text);
+}
+html.ui-tool .container > header h1 {
+  display: flex; align-items: center; justify-content: flex-start; gap: 12px;
+  margin: 0; font-size: 22px; line-height: 1.3; font-weight: 650; letter-spacing: -.01em;
+  color: var(--t-text);
+}
+html.ui-tool .container > header .title-icon {
+  flex: none;
+  display: inline-grid !important; place-items: center;
+  width: 38px !important; height: 38px !important; margin: 0 !important;
+  border-radius: 10px !important;
+  background: var(--t-brand) !important;
+  background-image: linear-gradient(135deg, var(--t-brand), var(--t-brand-2)) !important;
+  color: #fff !important; font-size: 16px !important;
+  box-shadow: 0 4px 10px -2px color-mix(in srgb, var(--t-brand) 40%, transparent);
+}
+html.ui-tool .container > header .title-icon i { color: #fff !important; font-size: 16px !important; }
+html.ui-tool .container > header .subtitle {
+  margin: 4px 0 0 50px; font-size: 13.5px; line-height: 1.6; color: var(--t-text-2); opacity: 1;
+}
+
+/* 返回工具箱（胶囊） */
+.ui-home {
+  height: 28px; padding: 0 12px 0 10px !important; margin: 0 0 12px !important;
+  border-radius: var(--t-r-pill) !important; font-size: 12.5px !important; font-weight: 500 !important;
+  color: var(--t-text-2, #475467) !important;
+  background: var(--t-surface, #fff) !important;
+  border: 1px solid var(--t-border, #e4e7ec) !important;
+  box-shadow: var(--t-shadow-xs);
+}
+.ui-home:hover { color: var(--t-brand, #2563eb) !important; border-color: var(--t-brand-border, #c3d4fd) !important; background: var(--t-brand-soft, #eff4ff) !important; }
+
+/* 页脚 */
+html.ui-tool .footer, html.ui-tool .container > footer {
+  margin-top: 28px; padding: 18px 0 6px;
+  border-top: 1px solid var(--t-border); background: transparent;
+  color: var(--t-text-3); font-size: 12.5px; line-height: 1.7; text-align: center;
+}
+html.ui-tool .footer p[style], html.ui-tool .container > footer p[style] { font-size: 12px !important; opacity: .85; }
+
+/* 主区域间距 */
+html.ui-tool .main-content { gap: 20px; margin-bottom: 20px; }
+html.ui-tool .bottom-panels { gap: 20px; margin-bottom: 20px; }
+
+/* ==========================================================================
+   3. 面板 / 卡片
+   ========================================================================== */
+html.ui-tool .panel {
+  background: var(--t-surface);
+  border: 1px solid var(--t-panel-border, var(--t-border));
+  border-radius: var(--t-panel-r, var(--t-r-lg));
+  box-shadow: var(--t-panel-shadow, var(--t-shadow-sm));
+  padding: var(--t-panel-pad, 20px);
+}
+html.ui-tool .panel-title {
+  gap: 8px; min-height: 32px;
+  margin-bottom: 16px; padding-bottom: 12px;
+  border-bottom: 1px solid var(--t-border);
+  color: var(--t-text); font-size: 15px; font-weight: 600;
+}
+html.ui-tool .panel-title h2, html.ui-tool .panel-title h3 { margin: 0; font-size: 15px; font-weight: 600; color: inherit; }
+html.ui-tool .panel-title > i:first-child,
+html.ui-tool .panel-title > h2 > i:first-child,
+html.ui-tool .panel-title > h3 > i:first-child,
+html.ui-tool .section-title > i:first-child {
+  display: inline-grid; place-items: center; flex: none;
+  width: 28px; height: 28px; margin-right: 2px !important;
+  border-radius: var(--t-r); font-size: 13px !important;
+  background: var(--t-brand-soft); color: var(--t-brand);
+}
+html.ui-tool .panel-title > .btn-clear,
+html.ui-tool .panel-title > .panel-header-actions { margin-left: auto; }
+
+/* 折叠分组 */
+html.ui-tool .compact-group {
+  border: 1px solid var(--t-border); border-radius: var(--t-r-md);
+  background: var(--t-surface); margin-bottom: 12px; overflow: hidden;
+}
+html.ui-tool .compact-group-title {
+  min-height: 44px; padding: 10px 14px;
+  background: var(--t-surface-2); border: 0;
+  color: var(--t-text); font-size: 14px; font-weight: 600;
+  transition: background-color .15s;
+}
+html.ui-tool .compact-group-title:hover { background: var(--t-surface-3); }
+html.ui-tool .compact-group-title i { color: var(--t-text-3); }
+html.ui-tool .compact-group-content { border-top: 1px solid var(--t-border-subtle); }
+
+/* 提示条 */
+html.ui-tool .info-message {
+  margin-top: 8px; padding: 9px 12px;
+  border-radius: var(--t-r); border: 1px solid var(--t-info-border);
+  background: var(--t-info-soft); color: var(--t-info-text);
+  font-size: 13px; line-height: 1.6;
+}
+
+/* ==========================================================================
+   4. 表单
+   ========================================================================== */
+html.ui-tool .form-group { margin-bottom: 14px; }
+html.ui-tool .form-row { gap: 14px; }
+html.ui-tool .form-group label,
+html.ui-tool .form-group > label {
+  margin-bottom: 6px; font-size: 13px; font-weight: 500; color: var(--t-text-2);
+}
+html.ui-tool .form-group label i { color: var(--t-text-3); margin-right: 4px; }
+
+html.ui-tool :is(input[type="text"], input[type="number"], input[type="password"], input[type="url"], input[type="search"], input[type="email"], select, textarea) {
+  border: 1px solid var(--t-border-strong);
+  border-radius: var(--t-input-r, var(--t-r));
+  background-color: var(--t-input-bg, var(--t-surface));
+  color: var(--t-text);
+  font-size: 14px;
+  box-shadow: var(--t-shadow-xs);
+  transition: border-color .15s, box-shadow .15s, background-color .15s;
+}
+html.ui-tool :is(input[type="text"], input[type="number"], input[type="password"], input[type="url"], input[type="search"], input[type="email"], select) {
+  min-height: var(--t-h); padding: 7px 12px;
+}
+html.ui-tool textarea {
+  padding: 10px 12px; line-height: 1.55;
+  font-family: var(--ui-mono); font-size: 13px;
+}
+html.ui-tool :is(input, select, textarea):hover:not(:focus):not(:disabled) { border-color: var(--t-border-hover); }
+html.ui-tool :is(input, select, textarea):focus {
+  outline: none; border-color: var(--t-brand);
+  box-shadow: var(--t-ring); background-color: var(--t-surface);
+}
+html.ui-tool :is(input, textarea)::placeholder { color: var(--t-placeholder); opacity: 1; }
+html.ui-tool :is(input, select, textarea):disabled,
+html.ui-tool textarea[readonly] { background-color: var(--t-surface-2); }
+html.ui-tool select {
+  -webkit-appearance: none; appearance: none; cursor: pointer;
+  padding-right: 32px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='%23667085'%3E%3Cpath d='M5.23 7.21a.75.75 0 011.06.02L10 11.1l3.71-3.87a.75.75 0 111.08 1.04l-4.25 4.43a.75.75 0 01-1.08 0L5.21 8.27a.75.75 0 01.02-1.06z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat; background-position: right 10px center; background-size: 16px;
+}
+html.ui-tool .url-input-group select { background-color: var(--t-surface-2); border-radius: var(--t-r) 0 0 var(--t-r); }
+html.ui-tool .url-input-group input { border-radius: 0 var(--t-r) var(--t-r) 0; }
+html.ui-tool :is(input[type="checkbox"], input[type="radio"]) { accent-color: var(--t-brand); width: 16px; height: 16px; cursor: pointer; }
+html.ui-tool :is(.checkbox-group, .checkbox-item) { font-size: 13.5px; color: var(--t-text-2); }
+html.ui-tool :is(.checkbox-group, .checkbox-item) label { cursor: pointer; }
+html.ui-tool .checkbox-grid { border-top: 1px solid var(--t-border-subtle); gap: 10px 14px; }
+html.ui-tool .toggle-password-btn { color: var(--t-text-3); border-radius: 0 var(--t-r) var(--t-r) 0; }
+html.ui-tool .toggle-password-btn:hover { color: var(--t-brand); background: var(--t-brand-soft); }
+html.ui-tool .input-tip { font-size: 12.5px; color: var(--t-text-3); }
+
+/* ==========================================================================
+   5. 按钮：主要 / 次要 / 成功 / 柔和警示 / 柔和危险 / 幽灵 / 描边
+   ========================================================================== */
+html.ui-tool :is(.btn, .btn-clear, .btn-icon, #clear-results-btn) {
+  display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+  min-height: var(--t-h); padding: 0 16px; margin-bottom: 0;
+  border: 1px solid transparent; border-radius: var(--t-btn-r, var(--t-r));
+  font-size: 14px; font-weight: 500; line-height: 1.2; letter-spacing: .01em;
+  white-space: nowrap; cursor: pointer;
+  box-shadow: var(--t-shadow-xs); transform: none;
+  transition: background-color .15s var(--t-ease), border-color .15s var(--t-ease), color .15s var(--t-ease), box-shadow .15s var(--t-ease);
+}
+html.ui-tool :is(.btn, .btn-clear, .btn-icon, #clear-results-btn) i { margin: 0 !important; font-size: .95em; }
+html.ui-tool :is(.btn, .btn-clear, .btn-icon, #clear-results-btn):hover { transform: none; box-shadow: var(--t-shadow-sm); }
+html.ui-tool :is(.btn, .btn-clear, .btn-icon, #clear-results-btn):active { transform: translateY(.5px); box-shadow: none; }
+html.ui-tool :is(.btn, .btn-clear, .btn-icon):disabled { opacity: .5; box-shadow: none !important; }
+
+/* 小号按钮：工具条、面板标题内、批量操作 */
+html.ui-tool :is(.btn-clear, #clear-results-btn, .config-actions .btn, .batch-controls .btn, .batch-actions .btn, .file-upload-section .btn, .panel-title .btn, .panel-header-actions .btn, .btn-icon) {
+  min-height: var(--t-h-sm); max-height: none; padding: 0 12px; font-size: 13px;
+}
+html[data-page="val"] .btn-icon { width: auto; height: var(--t-h-sm); }
+
+/* —— 主要 —— */
+html.ui-tool .btn:not([class*="btn-"]),
+html.ui-tool .btn.btn-primary,
+html[data-page="socks5"] #full-test-btn,
+html[data-page="txt2m3u"] .button-group .btn-primary {
+  background: var(--t-brand); border-color: var(--t-brand); color: var(--t-on-brand);
+}
+html.ui-tool .btn:not([class*="btn-"]):hover,
+html.ui-tool .btn.btn-primary:hover,
+html[data-page="socks5"] #full-test-btn:hover { background: var(--t-brand-hover); border-color: var(--t-brand-hover); }
+
+/* —— 成功（导出 / 下载） —— */
+html.ui-tool .btn.btn-success { background: var(--t-success); border-color: var(--t-success); color: #fff; }
+html.ui-tool .btn.btn-success:hover { background: var(--t-success-hover); border-color: var(--t-success-hover); }
+
+/* —— 柔和危险（停止 / 清除） —— */
+html.ui-tool .btn.btn-danger, html.ui-tool .btn.btn-error, html.ui-tool #clear-results-btn,
+html[data-page="socks5"] #clear-all-config {
+  background: var(--t-danger-soft); border-color: var(--t-danger-border); color: var(--t-danger-text);
+}
+html.ui-tool .btn.btn-danger:hover, html.ui-tool .btn.btn-error:hover, html.ui-tool #clear-results-btn:hover,
+html[data-page="socks5"] #clear-all-config:hover { background: var(--t-danger-soft-2); border-color: var(--t-danger); color: var(--t-danger-text); }
+
+/* —— 柔和警示（暂停） —— */
+html.ui-tool .btn.btn-warning { background: var(--t-warning-soft); border-color: var(--t-warning-border); color: var(--t-warning-text); }
+html.ui-tool .btn.btn-warning:hover { border-color: var(--t-warning); }
+
+/* —— 次要（中性） —— */
+html.ui-tool :is(.btn.btn-info, .btn.btn-export, .btn.btn-secondary, .btn-clear),
+html[data-page="resp"] #clear-btn, html[data-page="resp"] #example-btn,
+html[data-page="scan"] #export-btn,
+html[data-page="socks5"] :is(#load-example-streams, #load-sample-txt, #copy-matched-urls-btn),
+html[data-page="val"] :is(#load-example-urls, #clear-urls, #export-valid-report-btn, #clear-records-btn, #clear-log-btn),
+html[data-page="txt2m3u"] .button-group :is(.btn-info, .btn-warning, .btn-error) {
+  background: var(--t-btn2-bg, var(--t-surface)); border-color: var(--t-btn2-border, var(--t-border-strong)); color: var(--t-btn2-text, var(--t-text));
+}
+html.ui-tool :is(.btn.btn-info, .btn.btn-export, .btn.btn-secondary, .btn-clear):hover,
+html[data-page="resp"] :is(#clear-btn, #example-btn):hover,
+html[data-page="scan"] #export-btn:hover,
+html[data-page="socks5"] :is(#load-example-streams, #load-sample-txt, #copy-matched-urls-btn):hover,
+html[data-page="val"] :is(#load-example-urls, #clear-urls, #export-valid-report-btn, #clear-records-btn, #clear-log-btn):hover,
+html[data-page="txt2m3u"] .button-group :is(.btn-info, .btn-warning, .btn-error):hover {
+  background: var(--t-btn2-hover, var(--t-surface-2)); border-color: var(--t-border-hover); color: var(--t-btn2-text, var(--t-text));
+}
+/* 次要按钮中的图标带语义色 */
+html.ui-tool :is(.btn-export, #export-btn, #export-valid-report-btn) i { color: var(--t-success); }
+html.ui-tool .btn-clear i, html[data-page="txt2m3u"] .button-group .btn-warning i,
+html[data-page="val"] :is(#clear-records-btn, #clear-log-btn, #clear-urls) i { color: var(--t-text-3); }
+
+/* —— 描边主色（次一级主操作） —— */
+html[data-page="socks5"] #test-proxies-btn,
+html[data-page="txt2m3u"] .button-group .btn-secondary {
+  background: var(--t-surface); border-color: var(--t-brand-border); color: var(--t-brand);
+}
+html[data-page="socks5"] #test-proxies-btn:hover,
+html[data-page="txt2m3u"] .button-group .btn-secondary:hover { background: var(--t-brand-soft); border-color: var(--t-brand); color: var(--t-brand); }
+
+/* 按钮组 */
+html.ui-tool .buttons {
+  gap: 10px; margin-top: 16px; padding-top: 16px;
+  border-top: 1px solid var(--t-border-subtle);
+}
+html.ui-tool .buttons .btn { margin-bottom: 0; }
+
+/* 列表行内小图标按钮 */
+html.ui-tool :is(.history-fill-btn, .history-delete-btn) {
+  width: 28px; height: 28px; padding: 0; border-radius: var(--t-r-sm); border: 1px solid transparent; font-size: 12px;
+}
+html.ui-tool .history-fill-btn { background: var(--t-brand-soft); color: var(--t-brand); border-color: transparent; }
+html.ui-tool .history-fill-btn:hover { background: var(--t-brand); color: #fff; }
+html.ui-tool .history-delete-btn { background: var(--t-danger-soft); color: var(--t-danger-text); border-color: transparent; }
+html.ui-tool .history-delete-btn:hover { background: var(--t-danger); color: #fff; }
+html.ui-tool .record-delete-btn { background: var(--t-surface-3); color: var(--t-text-3); }
+html.ui-tool .record-delete-btn:hover { background: var(--t-danger-soft-2); color: var(--t-danger-text); }
+html.ui-tool .history-toggle-btn {
+  border: 1px dashed var(--t-border-strong); border-radius: var(--t-r);
+  background: transparent; color: var(--t-brand); font-size: 13px; font-weight: 500;
+}
+html.ui-tool .history-toggle-btn:hover { background: var(--t-brand-soft); border-color: var(--t-brand-border); border-style: solid; }
+
+/* ==========================================================================
+   6. 标签页
+   ========================================================================== */
+html.ui-tool .tabs { gap: 2px; border-bottom: 1px solid var(--t-border); }
+html.ui-tool .tab {
+  gap: 6px; padding: 10px 14px; margin-bottom: -1px;
+  border-bottom: 2px solid transparent; border-radius: var(--t-r-sm) var(--t-r-sm) 0 0;
+  color: var(--t-text-2); font-size: 14px; font-weight: 500;
+  transition: color .15s, background-color .15s, border-color .15s;
+}
+html.ui-tool .tab:hover { color: var(--t-text); background: var(--t-surface-2); }
+html.ui-tool .tab.active { color: var(--t-brand); border-bottom-color: var(--t-brand); font-weight: 600; background: transparent; }
+html.ui-tool .tab-content { padding-top: 4px; }
+
+/* ==========================================================================
+   7. 胶囊 / 徽标
+   ========================================================================== */
+html.ui-tool .stat-badge {
+  height: 20px; min-width: 20px; padding: 0 7px; margin-left: 4px;
+  border-radius: var(--t-r-pill); font-size: 12px; font-weight: 600;
+  background: var(--t-surface-3); color: var(--t-text-2);
+}
+html.ui-tool .tab.active .stat-badge { background: var(--t-brand-soft-2); color: var(--t-brand); }
+html.ui-tool #redirect-count-badge { background: var(--t-warning-soft); color: var(--t-warning-text); }
+
+html.ui-tool :is(.status-badge, .proxy-card-status) {
+  display: inline-flex; align-items: center; gap: 4px;
+  height: 22px; padding: 0 9px;
+  border-radius: var(--t-r-pill); border: 1px solid transparent;
+  font-size: 12px; font-weight: 600; line-height: 1; white-space: nowrap;
+}
+html.ui-tool :is(.status-badge, .proxy-card-status).status-success { background: var(--t-success-soft); color: var(--t-success-text); border-color: var(--t-success-border); }
+html.ui-tool :is(.status-badge, .proxy-card-status):is(.status-warning, .status-testing) { background: var(--t-warning-soft); color: var(--t-warning-text); border-color: var(--t-warning-border); }
+html.ui-tool :is(.status-badge, .proxy-card-status):is(.status-error, .status-failed) { background: var(--t-danger-soft); color: var(--t-danger-text); border-color: var(--t-danger-border); }
+html.ui-tool :is(.status-badge, .proxy-card-status).status-info { background: var(--t-brand-soft); color: var(--t-brand); border-color: var(--t-brand-border); }
+html.ui-tool .status-504 { background-color: var(--t-danger-soft) !important; color: var(--t-danger-text) !important; border: 1px solid var(--t-danger-border); }
+html.ui-tool .status-proxy-error { background-color: var(--t-warning-soft) !important; color: var(--t-warning-text) !important; border: 1px solid var(--t-warning-border); }
+
+/* val 状态码 */
+html.ui-tool .status-code { padding: 1px 8px; border-radius: var(--t-r-pill); font-size: 12px; font-weight: 600; }
+
+/* 计数 / 中性胶囊 */
+html.ui-tool :is(.count-badge, .counter-badge, .proxy-card-stats, .history-time-badge) {
+  display: inline-flex; align-items: center; gap: 4px;
+  height: 22px; padding: 0 9px;
+  border-radius: var(--t-r-pill); border: 1px solid var(--t-border);
+  background: var(--t-surface-2); color: var(--t-text-2);
+  font-size: 12px; font-weight: 500; white-space: nowrap;
+}
+html.ui-tool :is(.stream-group, .record-proxy) {
+  padding: 1px 9px; border-radius: var(--t-r-pill);
+  background: var(--t-brand-soft); color: var(--t-brand); font-size: 12px; font-weight: 500;
+}
+
+/* ==========================================================================
+   8. 数据展示：概览指标 / 列表 / 表格 / 日志 / 进度 / 空状态
+   ========================================================================== */
+html.ui-tool .response-info { gap: 8px; padding: 0 0 14px; margin-bottom: 14px; border-bottom: 1px solid var(--t-border-subtle); justify-content: flex-start; }
+html.ui-tool .response-info-item {
+  gap: 6px; padding: 6px 12px;
+  border: 1px solid var(--t-border); border-radius: var(--t-r);
+  background: var(--t-surface-2); font-size: 13px;
+}
+html.ui-tool .response-info-label { margin: 0; font-size: 12.5px; font-weight: 500; color: var(--t-text-3); }
+html.ui-tool .response-info-value { font-weight: 600; font-variant-numeric: tabular-nums; }
+
+html[data-page="val"] .batch-stats { gap: 10px; justify-content: stretch; }
+html[data-page="val"] .stat-item {
+  padding: 10px 12px; align-items: flex-start;
+  border: 1px solid var(--t-border); border-radius: var(--t-r-md);
+  background: var(--t-surface-2);
+}
+html[data-page="val"] .stat-value { font-size: 20px; line-height: 1.25; font-weight: 700; font-variant-numeric: tabular-nums; }
+html[data-page="val"] .stat-label { font-size: 12px; color: var(--t-text-3); }
+
+/* 列表行 */
+html.ui-tool :is(.history-item, .record-compact) {
+  background: var(--t-surface); border: 1px solid var(--t-border); border-radius: var(--t-r);
+  box-shadow: none; transition: border-color .15s, background-color .15s, box-shadow .15s;
+}
+html.ui-tool :is(.history-item, .record-compact):hover {
+  background: var(--t-surface-2); border-color: var(--t-brand-border); transform: none; box-shadow: var(--t-shadow-xs);
+}
+html.ui-tool .history-item.placeholder,
+html.ui-tool .history-item.placeholder:hover {
+  background: transparent; border-style: dashed; border-color: var(--t-border-strong); color: var(--t-text-3); box-shadow: none;
+}
+html.ui-tool :is(.history-meta, .history-time, .record-time, .record-stats) { color: var(--t-text-3); font-size: 12.5px; }
+html.ui-tool .record-time { font-weight: 500; }
+html.ui-tool :is(.history-url, .record-url, .result-url, .stream-url) { font-family: var(--ui-mono); font-size: 12.5px; }
+
+html.ui-tool .result-item {
+  padding: 6px 10px; margin-bottom: 6px;
+  background: var(--t-surface); border: 1px solid var(--t-border); border-left: 3px solid var(--t-success);
+  border-radius: var(--t-r);
+}
+html.ui-tool .result-item.timeout { border-left-color: var(--t-warning); background: var(--t-surface); }
+html.ui-tool .result-item.invalid { border-left-color: var(--t-danger); background: var(--t-surface); }
+html.ui-tool .result-item:hover { background: var(--t-surface-2); transform: none; box-shadow: var(--t-shadow-xs); }
+
+html.ui-tool .proxy-card {
+  background: var(--t-surface); border: 1px solid var(--t-border); border-radius: var(--t-r-md);
+  box-shadow: var(--t-shadow-xs); margin-bottom: 12px;
+}
+html.ui-tool .proxy-card-header { padding: 8px 14px; background: var(--t-surface-2); border-bottom: 1px solid var(--t-border); }
+html.ui-tool :is(.proxy-card-title, .proxy-card-proxy) { color: var(--t-text); font-family: var(--ui-mono); font-size: 13px; }
+html.ui-tool .stream-item {
+  padding: 6px 10px; margin-bottom: 6px;
+  background: var(--t-surface); border: 1px solid var(--t-border-subtle); border-left: 3px solid var(--t-success);
+  border-radius: var(--t-r-sm);
+}
+html.ui-tool .stream-item.failed { border-left-color: var(--t-danger); }
+html.ui-tool .stream-item.progress-item { background: var(--t-warning-soft); border-color: var(--t-warning-border); color: var(--t-warning-text); }
+html.ui-tool .stream-name { font-size: 13.5px; color: var(--t-text); }
+html.ui-tool .stream-status { color: var(--t-success-text); }
+html.ui-tool .stream-item.failed .stream-status { color: var(--t-danger-text); }
+
+/* 表格 */
+html.ui-tool .batch-results { border: 1px solid var(--t-border); border-radius: var(--t-r-md); background: var(--t-surface); padding: 0; }
+html.ui-tool :is(.batch-result-table, .headers-table) th {
+  background: var(--t-surface-2); color: var(--t-text-2);
+  font-size: 12.5px; font-weight: 600; border-bottom: 1px solid var(--t-border);
+}
+html.ui-tool :is(.batch-result-table, .headers-table) td { border-bottom: 1px solid var(--t-border-subtle); }
+html.ui-tool :is(.batch-result-table, .headers-table) tbody tr:hover td { background: var(--t-surface-2); }
+html[data-page="val"] .batch-result-table :is(th, td) { padding: 6px 8px; }
+
+/* 代码 / 日志 */
+html.ui-tool pre {
+  background: var(--t-code-bg); border: 1px solid var(--t-border); border-radius: var(--t-r);
+  color: var(--t-text); font-size: 12.5px; line-height: 1.6;
+}
+html.ui-tool :is(#log-container, .log-box, .log-container) {
+  background: var(--t-code-bg); border: 1px solid var(--t-border); border-radius: var(--t-r);
+  padding: 10px 12px; font-family: var(--ui-mono); font-size: 12.5px; line-height: 1.6;
+}
+html.ui-tool :is(.log-item, .log-entry) { border-bottom: 1px solid var(--t-border-subtle); }
+html.ui-tool .log-time { color: var(--t-text-3); font-family: var(--ui-mono); }
+html.ui-tool :is(.log-message.warning, .log-warning) { color: var(--t-warning-text); }
+html.ui-tool .log-details { background: var(--t-surface-3); color: var(--t-text-2); border-radius: var(--t-r-sm); }
+html.ui-tool #log-container::-webkit-scrollbar-track { background: transparent; }
+
+/* 进度条 */
+html.ui-tool .progress-container,
+html[data-page="val"] .progress-bar {
+  height: 6px; border-radius: var(--t-r-pill); background: var(--t-surface-3); overflow: hidden;
+}
+html.ui-tool .progress-container .progress-bar,
+html[data-page="val"] .progress-fill {
+  border-radius: var(--t-r-pill);
+  background: linear-gradient(90deg, var(--t-brand), var(--t-brand-2));
+}
+
+/* 空状态 */
+html.ui-tool :is(.no-results, .no-results1, .record-empty, .no-redirects, .no-streams-message) { color: var(--t-text-3); font-size: 13px; }
+html.ui-tool :is(.no-results, .no-results1, .record-empty) i { font-size: 28px; opacity: .45; color: var(--t-text-3); }
+
+/* 加载 */
+html.ui-tool .spinner { border-color: var(--t-surface-3); border-top-color: var(--t-brand); }
+
+/* ==========================================================================
+   9. txt2m3u：统一成同一套卡片布局
+   ========================================================================== */
+html[data-page="txt2m3u"] body { padding: 0; line-height: 1.55; }
+html[data-page="txt2m3u"] .container { border-radius: 0; overflow: visible; margin: 0 auto; }
+html[data-page="txt2m3u"] .main-content { padding: 0; min-height: 0; gap: 20px; }
+html[data-page="txt2m3u"] .left-panel { gap: 16px; min-width: 0; }
+html[data-page="txt2m3u"] .right-panel { min-width: 0; }
+html[data-page="txt2m3u"] :is(.input-section, .output-section, .button-group) {
+  background: var(--t-surface); border: 1px solid var(--t-border); border-radius: var(--t-r-lg);
+  box-shadow: var(--t-shadow-sm); padding: 18px 20px;
+}
+html[data-page="txt2m3u"] .section-title {
+  gap: 8px; margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px solid var(--t-border);
+  color: var(--t-text); font-size: 15px; font-weight: 600;
+}
+html[data-page="txt2m3u"] .file-upload-section {
+  margin-bottom: 12px; padding: 10px 12px;
+  background: var(--t-surface-2); border: 1px dashed var(--t-border-strong); border-radius: var(--t-r-md);
+}
+html[data-page="txt2m3u"] .file-upload-section .btn { flex: none; min-width: 0; }
+html[data-page="txt2m3u"] :is(.file-name, .file-info) { font-size: 12.5px; color: var(--t-text-3); }
+html[data-page="txt2m3u"] .config-collapse {
+  background: var(--t-surface); border: 1px solid var(--t-border); border-radius: var(--t-r-lg); box-shadow: var(--t-shadow-sm);
+}
+html[data-page="txt2m3u"] .collapse-header {
+  padding: 13px 20px; background: var(--t-surface); color: var(--t-text); font-size: 14.5px; font-weight: 600;
+}
+html[data-page="txt2m3u"] .collapse-header:hover { background: var(--t-surface-2); }
+html[data-page="txt2m3u"] .collapse-header i { color: var(--t-text-3); }
+html[data-page="txt2m3u"] .collapse-header > span i { color: var(--t-brand); margin-right: 6px; }
+html[data-page="txt2m3u"] .collapse-content { padding: 16px 20px; border-top: 1px solid var(--t-border-subtle); }
+html[data-page="txt2m3u"] .collapse-content.collapsed { padding: 0 20px; border-top-color: transparent; }
+/* 操作区：3 列栅格，主次分明 */
+html[data-page="txt2m3u"] .button-group {
+  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; padding: 16px;
+}
+html[data-page="txt2m3u"] .button-group .btn { min-width: 0; width: 100%; }
+html[data-page="txt2m3u"] .output-section textarea { background: var(--t-code-bg); }
+@media (max-width: 480px) {
+  html[data-page="txt2m3u"] .button-group { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+/* ==========================================================================
+   10. 首页
+   ========================================================================== */
+@media (min-width: 769px) { html[data-page="home"] .container { max-width: 1240px; padding: 32px 28px 28px; } }
+html[data-page="home"] .tools-header {
+  position: relative; overflow: hidden;
+  margin-bottom: 24px; padding: 36px 28px 30px;
+  border: 1px solid var(--t-border); border-radius: var(--t-r-xl);
+  background:
+    radial-gradient(600px 200px at 50% -40px, var(--t-brand-soft-2), transparent 70%),
+    var(--t-surface);
+  box-shadow: var(--t-shadow-sm);
+}
+html[data-page="home"] .tools-header h1 {
+  margin-bottom: 8px; gap: 14px;
+  font-size: 30px; font-weight: 700; letter-spacing: -.02em; color: var(--t-text);
+}
+html[data-page="home"] .tools-header .title-icon {
+  width: 48px; height: 48px; border-radius: 14px; font-size: 20px;
+  background: linear-gradient(135deg, var(--t-brand), #7c5cff);
+  box-shadow: 0 8px 18px -6px rgba(37, 99, 235, .45);
+}
+html[data-page="home"] .tools-header .subtitle { font-size: 15px; color: var(--t-text-2); }
+
+html[data-page="home"] .tools-search { margin-bottom: 28px; }
+html[data-page="home"] .tools-search input {
+  height: 46px; border-radius: var(--t-r-md); border-color: var(--t-border-strong);
+  background: var(--t-surface); box-shadow: var(--t-shadow-xs); font-size: 14.5px;
+}
+html[data-page="home"] .tools-search input:focus { border-color: var(--t-brand); box-shadow: var(--t-ring); }
+html[data-page="home"] .tools-search > i { color: var(--t-text-3); }
+html[data-page="home"] .tools-search-count { color: var(--t-text-3); }
+
+html[data-page="home"] .tools-grid { gap: 20px; margin-bottom: 32px; }
+html[data-page="home"] .tool-card {
+  padding: 22px; border-radius: var(--t-r-xl);
+  background: var(--t-surface); border: 1px solid var(--t-border); box-shadow: var(--t-shadow-xs);
+  transition: border-color .2s var(--t-ease), box-shadow .2s var(--t-ease), transform .2s var(--t-ease);
+}
+html[data-page="home"] .tool-card:hover,
+html[data-page="home"] .tool-card:focus-visible {
+  transform: translateY(-2px); box-shadow: var(--t-shadow-md); border-color: var(--t-brand-border) !important;
+}
+html[data-page="home"] .tool-header { gap: 14px; margin-bottom: 14px; align-items: center; }
+html[data-page="home"] .tool-icon { width: 44px; height: 44px; margin-top: 0; border-radius: 12px; font-size: 18px; box-shadow: var(--t-shadow-sm); }
+html[data-page="home"] .tool-title { flex-direction: row; flex-wrap: wrap; align-items: center; gap: 6px 8px; }
+html[data-page="home"] .tool-title h3 { flex-basis: 100%; font-size: 16.5px; font-weight: 650; color: var(--t-text); }
+/* 卡片标签统一成中性胶囊，颜色只留在图标上 */
+html[data-page="home"] .tool-card .tool-tag {
+  margin: 0; padding: 0 8px; height: 20px; display: inline-flex; align-items: center; gap: 4px;
+  border-radius: var(--t-r-pill); border: 1px solid var(--t-border);
+  background: var(--t-surface-2) !important; color: var(--t-text-2) !important;
+  font-size: 11.5px; font-weight: 500; letter-spacing: 0; text-transform: none;
+}
+html[data-page="home"] .tool-card .tool-tag-ext { background: var(--t-warning-soft) !important; color: var(--t-warning-text) !important; border-color: var(--t-warning-border); margin-left: 0; }
+html[data-page="home"] .tool-description { margin-bottom: 16px; font-size: 14px; line-height: 1.7; color: var(--t-text-2); }
+html[data-page="home"] .tool-description ul { margin-top: 8px; }
+html[data-page="home"] .tool-description li { margin-bottom: 4px; font-size: 13.5px; }
+html[data-page="home"] .tool-features { gap: 6px; padding-top: 14px; border-top: 1px solid var(--t-border-subtle); }
+html[data-page="home"] .feature-tag {
+  height: 24px; padding: 0 10px; border-radius: var(--t-r-pill);
+  font-size: 12px; font-weight: 500; border: 1px solid rgba(127, 127, 127, .12);
+}
+html[data-page="home"] .tools-footer { border-top: 1px solid var(--t-border); color: var(--t-text-3); font-size: 13px; }
+html[data-page="home"] .wechat-info { border-radius: var(--t-r-pill); }
+
+
+/* 首页卡片图标与各工具皮肤同色 */
+html[data-page="home"] .tool-card[href="txt2m3u/"] .tool-icon { background: linear-gradient(135deg, #0f766e, #14b8a6); }
+html[data-page="home"] .tool-card[href="resp/"]    .tool-icon { background: linear-gradient(135deg, #ea580c, #fb923c); }
+html[data-page="home"] .tool-card[href="val/"]     .tool-icon { background: linear-gradient(135deg, #047857, #10b981); }
+html[data-page="home"] .tool-card[href="scan/"]    .tool-icon { background: linear-gradient(135deg, #1e3a8a, #2f55d4); }
+html[data-page="home"] .tool-card[href="socks5/"]  .tool-icon { background: linear-gradient(135deg, #0b1220, #0891b2); }
+html[data-page="home"] .tool-card[href="player/"]  .tool-icon { background: linear-gradient(135deg, #9f1239, #e11d48); }
+html[data-page="home"] .tool-card[href="player2/"] .tool-icon { background: linear-gradient(135deg, #6d28d9, #a78bfa); }
+
+/* ==========================================================================
+   11. 播放器（令牌级微调，不改变控件尺寸）
+   ========================================================================== */
+html:is([data-page="player"],[data-page="player2"]) .header { backdrop-filter: saturate(160%) blur(12px); -webkit-backdrop-filter: saturate(160%) blur(12px); }
+html:is([data-page="player"],[data-page="player2"]) .logo h1 { font-size: 17px; font-weight: 650; letter-spacing: -.01em; }
+html:is([data-page="player"],[data-page="player2"]) .btn { font-weight: 500; letter-spacing: .01em; }
+html:is([data-page="player"],[data-page="player2"]) .btn-primary { box-shadow: 0 4px 12px -4px color-mix(in srgb, var(--primary-color) 55%, transparent); }
+html:is([data-page="player"],[data-page="player2"]) .btn-primary:hover { background: var(--primary-dark-color); }
+html:is([data-page="player"],[data-page="player2"]) .drawer-panel { border: 1px solid var(--border-light); }
+html:is([data-page="player"],[data-page="player2"]) body.dark-mode .drawer-panel { border-color: var(--border-dark); }
+html:is([data-page="player"],[data-page="player2"]) .drawer-header { color: inherit; font-size: 16px; }
+html:is([data-page="player"],[data-page="player2"]) .setting-group h4 { font-size: 13px; font-weight: 600; letter-spacing: .02em; opacity: .75; }
+html:is([data-page="player"],[data-page="player2"]) .status-indicator { padding: 6px 12px; font-size: 12.5px; border-radius: 999px; }
+html:is([data-page="player"],[data-page="player2"]) .input-group input[type="text"] { border-radius: 10px; }
+
+
+/* ---------- 播放器：控制条统一放到画面上 ----------
+ * 画面内：上排整宽进度条；下排 播放 · 时间 · 音量 …… 倍速 · (线路) · 全屏
+ * 画面外只保留"地址输入 / 代理 / 状态"，重复的播放、进度、音量、倍速、全屏按钮隐藏
+ */
+html.ui-overlay-ctrl #topPlayerControls { display: none !important; }
+html.ui-overlay-ctrl #inVideoControls {
+  flex-wrap: wrap !important; overflow: visible !important;
+  row-gap: 4px; column-gap: 6px;
+  padding: 34px 14px 10px;
+  background: linear-gradient(to top, rgba(0, 0, 0, .82) 0%, rgba(0, 0, 0, .45) 55%, rgba(0, 0, 0, 0) 100%);
+}
+html.ui-overlay-ctrl #inVideoControls #inVideoSeekSlider {
+  order: -1; flex: 1 0 100%; width: 100%; min-width: 0; margin: 0 0 4px;
+  height: 4px; border-radius: 4px; transition: height .15s;
+  background: linear-gradient(90deg, var(--primary-color) var(--seek-pct, 0%), rgba(255, 255, 255, .28) 0);
+}
+html.ui-overlay-ctrl #inVideoControls #inVideoSeekSlider:hover { height: 6px; }
+html.ui-overlay-ctrl #inVideoControls #inVideoSeekSlider::-webkit-slider-thumb { width: 14px; height: 14px; background: #fff; box-shadow: 0 0 0 3px color-mix(in srgb, var(--primary-color) 45%, transparent); }
+html.ui-overlay-ctrl #inVideoControls :is(.btn-icon, .speed-dropdown .btn-icon) {
+  width: 36px; height: 36px; min-height: 36px; padding: 0; border: 0; border-radius: 50%;
+  background: transparent; color: #fff; box-shadow: none;
+}
+html.ui-overlay-ctrl #inVideoControls :is(.btn-icon, .speed-dropdown .btn-icon):hover { background: rgba(255, 255, 255, .16); }
+html.ui-overlay-ctrl #inVideoControls #inVideoPlayPauseBtn { width: 40px; height: 40px; background: rgba(255, 255, 255, .14); }
+html.ui-overlay-ctrl #inVideoControls .time-display { min-width: 0; font-size: 13px; padding: 0 1px; }
+html.ui-overlay-ctrl #inVideoControls #inVideoCurrentTimeDisplay { margin-left: 4px; }
+html.ui-overlay-ctrl #inVideoControls #inVideoDurationDisplay { opacity: .75; }
+html.ui-overlay-ctrl #inVideoControls #inVideoDurationDisplay::before { content: "/"; margin: 0 5px 0 1px; opacity: .7; }
+html.ui-overlay-ctrl #inVideoControls .volume-controls { display: flex !important; margin: 0 auto 0 10px; gap: 6px; }
+html.ui-overlay-ctrl #inVideoControls .volume-controls i { width: 20px; text-align: center; }
+html.ui-overlay-ctrl #inVideoControls .volume-slider { width: 84px; }
+html.ui-overlay-ctrl #inVideoControls .volume-controls span { min-width: 34px; font-size: 12px; text-align: left; opacity: .85; }
+html.ui-overlay-ctrl #inVideoControls .line-selector { margin: 0 2px; }
+/* 倍速菜单从按钮上方弹出 */
+html.ui-overlay-ctrl #inVideoControls .speed-menu {
+  bottom: calc(100% + 10px); right: -6px; z-index: 30; min-width: 96px;
+  background: rgba(18, 18, 22, .94); border: 1px solid rgba(255, 255, 255, .10);
+  -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
+  box-shadow: 0 12px 28px -8px rgba(0, 0, 0, .6);
+}
+html.ui-overlay-ctrl #inVideoControls .speed-menu button { color: #e5e7eb; text-align: center; font-variant-numeric: tabular-nums; }
+html.ui-overlay-ctrl #inVideoControls .speed-menu button:hover { background: rgba(255, 255, 255, .10); }
+html.ui-overlay-ctrl #inVideoControls .speed-menu button.active-speed-btn { background: var(--primary-color); color: #fff; }
+/* 画面外控制区：只剩地址栏 + 代理 + 状态 */
+html.ui-overlay-ctrl .main-control-bar { gap: 12px; }
+@media (max-width: 768px) {
+  html.ui-overlay-ctrl #inVideoControls { padding: 26px 8px 6px; column-gap: 2px; }
+  html.ui-overlay-ctrl #inVideoControls :is(.btn-icon, .speed-dropdown .btn-icon) { width: 34px; height: 34px; min-height: 34px; }
+  html.ui-overlay-ctrl #inVideoControls #inVideoPlayPauseBtn { width: 36px; height: 36px; }
+  html.ui-overlay-ctrl #inVideoControls .time-display { font-size: 11.5px; }
+  html.ui-overlay-ctrl #inVideoControls .volume-slider { width: 60px; }
+  html.ui-overlay-ctrl #inVideoControls .volume-controls span { display: none; }
+}
+@media (max-width: 420px) {
+  /* 小屏手机：音量交给实体按键，只保留静音图标 */
+  html.ui-overlay-ctrl #inVideoControls .volume-slider { display: none; }
+  html.ui-overlay-ctrl #inVideoControls .volume-controls { margin-left: 4px; }
+}
+
+
+/* ==========================================================================
+   13. 第五轮复查：旧样式残留色、交互细节、质感
+   ========================================================================== */
+/* —— resp：响应体 / 重定向 / 下载区 —— 旧样式写死浅灰与蓝绿底，深色下是灰块 */
+html.ui-tool #response-body,
+html.ui-tool #response-body.m3u8-content { background: var(--t-code-bg); border-color: var(--t-border); color: var(--t-text); border-radius: var(--t-r); }
+html.ui-tool .redirect-step { background: var(--t-surface-2); color: var(--t-text); border-left: 3px solid var(--t-warning); border-radius: var(--t-r); }
+html.ui-tool .redirect-step.final-response-step,
+html.ui-tool .final-response-step { background: var(--t-brand-soft); border-left-color: var(--t-brand); color: var(--t-text); }
+html.ui-tool .redirect-summary { background: var(--t-success-soft); border-left: 3px solid var(--t-success); color: var(--t-text); border-radius: var(--t-r); }
+html.ui-tool :is(.download-section, .m3u8-actions) { background: var(--t-surface-2) !important; border: 1px solid var(--t-border) !important; border-radius: var(--t-r-md) !important; }
+html.ui-tool .download-tip { background: var(--t-success-soft) !important; border-color: var(--t-success-border) !important; color: var(--t-success-text) !important; border-radius: var(--t-r) !important; }
+html.ui-tool .download-btn { background: var(--t-success) !important; border-radius: var(--t-btn-r, var(--t-r)) !important; }
+html.ui-tool .download-btn:hover { background: var(--t-success-hover) !important; }
+html.ui-tool .history-clear-all { background: transparent; border: 1px dashed var(--t-border-strong); border-radius: var(--t-r); color: var(--t-danger-text); }
+html.ui-tool .history-clear-all:hover { background: var(--t-danger-soft); border-color: var(--t-danger-border); border-style: solid; }
+html.ui-tool .error-url { background: var(--t-surface-2); border-radius: var(--t-r-sm); }
+
+/* —— scan：结果状态改为浅底胶囊；扫描详情卡 —— */
+html.ui-tool .result-status {
+  display: inline-flex; align-items: center; justify-content: center; height: 20px; padding: 0 8px; min-width: 56px;
+  border-radius: 999px; border: 1px solid transparent; font-size: 11.5px; font-weight: 600;
+}
+html.ui-tool .result-status.valid { background: var(--t-success-soft); color: var(--t-success-text); border-color: var(--t-success-border); }
+html.ui-tool .result-status:is(.timeout, .proxy-timeout, .fast-timeout) { background: var(--t-warning-soft); color: var(--t-warning-text); border-color: var(--t-warning-border); }
+html.ui-tool .result-status:is(.invalid, .server-error) { background: var(--t-danger-soft); color: var(--t-danger-text); border-color: var(--t-danger-border); }
+html.ui-tool .result-status.non-m3u8 { background: var(--t-surface-3); color: var(--t-text-2); border-color: var(--t-border); }
+html.ui-tool #scan-info, html.ui-tool #test-info { background: var(--t-surface-2); border: 1px solid var(--t-border); border-radius: var(--t-r-md); }
+html.ui-tool :is(#scan-info-title, #test-info-title) { color: var(--t-brand); }
+html.ui-tool :is(#scan-details, #test-details) { color: var(--t-text-2); }
+html.ui-tool :is(.history-valid, .history-timeout, .history-invalid) { border-radius: 999px; padding: 0 8px; font-size: 12px; font-weight: 500; }
+html.ui-tool .history-valid { background: var(--t-success-soft); color: var(--t-success-text); }
+html.ui-tool .history-timeout { background: var(--t-warning-soft); color: var(--t-warning-text); }
+html.ui-tool .history-invalid { background: var(--t-danger-soft); color: var(--t-danger-text); }
+
+/* —— val：记录列表底色、说明标题 —— */
+html.ui-tool .records-list { background: transparent; border: 0; padding: 0; }
+html.ui-tool .info-content h3 { color: var(--t-brand); }
+html.ui-tool :is(.status-200) { background: var(--t-success-soft); color: var(--t-success-text); }
+html.ui-tool :is(.status-403, .status-404) { background: var(--t-danger-soft); color: var(--t-danger-text); }
+html.ui-tool :is(.status-500, .status-502, .status-503) { background: var(--t-warning-soft); color: var(--t-warning-text); }
+html.ui-tool :is(.status-301, .status-302) { background: var(--t-brand-soft); color: var(--t-brand); }
+
+/* —— socks5：深色控制台下的旧浅色/灰色块 —— */
+html.ui-tool :is(.history-container, .proxy-card-content, .streams-container) { background: transparent; border-color: var(--t-border); }
+html.ui-tool :is(.history-proxy-list, .stream-info, .real-ip-location) { color: var(--t-text-3); }
+
+/* —— 交互：统一按下态、键盘焦点、可点击行的指针 —— */
+html.ui-tool .btn:not([class*="btn-"]):active,
+html.ui-tool .btn.btn-primary:active { background: var(--t-brand-active); border-color: var(--t-brand-active); }
+html.ui-tool :is(.btn, .btn-clear, .tab, .compact-group-title):focus-visible { outline: 2px solid var(--t-brand) !important; outline-offset: 2px !important; box-shadow: var(--t-ring) !important; }
+html.ui-tool :is(.history-item:not(.placeholder), .record-compact, .result-item, .compact-group-title, .collapse-header) { cursor: pointer; }
+html.ui-tool .btn[disabled], html.ui-tool .btn:disabled { cursor: not-allowed; filter: saturate(.6); }
+html.ui-tool .compact-group-arrow, html.ui-tool .collapse-arrow { transition: transform .2s var(--t-ease); }
+
+/* —— 质感：卡片顶部 1px 高光，深色下更有层次 —— */
+@media (prefers-color-scheme: dark) {
+  html.ui-tool .panel { box-shadow: inset 0 1px 0 rgba(255, 255, 255, .035), var(--t-panel-shadow, var(--t-shadow-sm)); }
+}
+html.ui-tool ::selection { background: color-mix(in srgb, var(--t-brand) 24%, transparent); }
+html.ui-tool .ui-top { background: var(--t-surface); color: var(--t-brand); border: 1px solid var(--t-border); box-shadow: var(--t-shadow-md); }
+
+/* —— 弹窗 / 提示跟随页面主色 —— */
+html.ui-tool .ui-dialog:not(.is-danger) { --dc: var(--t-brand); --dc-soft: var(--t-brand-soft); }
+html.ui-tool .ui-dialog-btn.is-primary { background: var(--t-brand); border-color: var(--t-brand); color: var(--t-on-brand); }
+html.ui-tool .ui-dialog-btn.is-primary:hover { background: var(--t-brand-hover); border-color: var(--t-brand-hover); }
+html.ui-tool .ui-toast-info { --tc: var(--t-brand); }
+html:is([data-page="player"], [data-page="player2"]) .ui-dialog:not(.is-danger) { --dc: var(--primary-color); }
+html:is([data-page="player"], [data-page="player2"]) .ui-dialog-btn.is-primary { background: var(--primary-color); border-color: var(--primary-color); }
+html:is([data-page="player"], [data-page="player2"]) .ui-toast-info { --tc: var(--primary-color); }
+
+/* —— 播放器倍速菜单：画面矮时竖排会被裁掉，改为 3×2 网格 —— */
+html.ui-overlay-ctrl #inVideoControls .speed-dropdown.open .speed-menu {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; padding: 4px; min-width: 168px;
+}
+html.ui-overlay-ctrl #inVideoControls .speed-menu button { padding: 7px 0; border-radius: 6px; font-size: 13px; }
+
+/* —— 首页：特性标签 / 列表圆点 / 悬停描边与各工具主色一致（原按卡片序号着色，插入解密卡后错位） —— */
+html[data-page="home"] .tool-card { --c: var(--t-brand); --c-soft: var(--t-brand-soft); }
+html[data-page="home"] .tool-card[href="txt2m3u/"] { --c: #0f766e; --c-soft: #f0fdfa; }
+html[data-page="home"] .tool-card[href^="https://"] { --c: #1976d2; --c-soft: #e3f2fd; }
+html[data-page="home"] .tool-card[href="resp/"]    { --c: #c2410c; --c-soft: #fff7ed; }
+html[data-page="home"] .tool-card[href="val/"]     { --c: #047857; --c-soft: #ecfdf5; }
+html[data-page="home"] .tool-card[href="scan/"]    { --c: #1d4ed8; --c-soft: #eef2ff; }
+html[data-page="home"] .tool-card[href="socks5/"]  { --c: #0e7490; --c-soft: #ecfeff; }
+html[data-page="home"] .tool-card[href="player/"]  { --c: #be123c; --c-soft: #fff1f2; }
+html[data-page="home"] .tool-card[href="player2/"] { --c: #6d28d9; --c-soft: #f5f3ff; }
+@media (prefers-color-scheme: dark) {
+  html[data-page="home"] .tool-card { --c-soft: color-mix(in srgb, var(--c) 18%, transparent) !important; }
+}
+html[data-page="home"] .tool-card .feature-tag { background: var(--c-soft) !important; color: var(--c) !important; border-color: color-mix(in srgb, var(--c) 18%, transparent); }
+@media (prefers-color-scheme: dark) { html[data-page="home"] .tool-card .feature-tag { color: color-mix(in srgb, var(--c) 55%, #fff) !important; } }
+html[data-page="home"] .tool-card .tool-description li::before { color: var(--c) !important; }
+html[data-page="home"] .tool-card:hover, html[data-page="home"] .tool-card:focus-visible { border-color: color-mix(in srgb, var(--c) 45%, transparent) !important; }
+html[data-page="home"] .tool-card::after {
+  content: ""; position: absolute; left: 0; right: 0; top: 0; height: 3px;
+  background: var(--c); opacity: 0; transition: opacity .2s;
+}
+html[data-page="home"] .tool-card:hover::after { opacity: 1; }
+
+/* ==========================================================================
+   12. 响应式
+   ========================================================================== */
+@media (max-width: 768px) {
+  html.ui-tool .container > header { padding-bottom: 14px; margin-bottom: 14px; }
+  html.ui-tool .container > header h1 { font-size: 18px; gap: 10px; }
+  html.ui-tool .container > header .title-icon { width: 32px !important; height: 32px !important; border-radius: 9px !important; font-size: 14px !important; }
+  html.ui-tool .container > header .subtitle { margin-left: 0; margin-top: 8px; font-size: 13px; }
+  html.ui-tool .panel { padding: 16px; border-radius: var(--t-r-md); }
+  html.ui-tool .main-content, html.ui-tool .bottom-panels { gap: 14px; }
+  html.ui-tool .tab { padding: 9px 10px; font-size: 13px; }
+  html.ui-tool .buttons .btn { width: 100%; }
+  html[data-page="txt2m3u"] .container { padding: 12px; }
+  html[data-page="txt2m3u"] :is(.input-section, .output-section) { padding: 14px; }
+  html[data-page="home"] .tools-header { padding: 26px 18px 22px; }
+  html[data-page="home"] .tools-header h1 { font-size: 24px; }
+  html[data-page="home"] .tool-card { padding: 18px; }
+}
+@media (pointer: coarse) {
+  html.ui-tool :is(.btn, .tab, .compact-group-title) { min-height: 44px; }
+  html.ui-tool :is(.btn-clear, #clear-results-btn, .config-actions .btn, .batch-controls .btn, .batch-actions .btn, .btn-icon) { min-height: 40px; }
+}

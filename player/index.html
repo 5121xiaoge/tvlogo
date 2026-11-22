@@ -29,7 +29,9 @@
   <meta http-equiv="Content-Security-Policy" content="default-src * 'unsafe-inline' 'unsafe-eval' data: blob:; script-src * 'unsafe-inline' 'unsafe-eval'; worker-src * blob: 'unsafe-inline'; connect-src * 'unsafe-inline'; img-src * data: blob:; frame-src *; style-src * 'unsafe-inline';">  
 
     <link rel="stylesheet" href="../assets/ui.css">
-    <script src="../assets/ui.js" data-home="../" data-player></script>
+    <link rel="stylesheet" href="../assets/theme.css">
+    <link rel="stylesheet" href="../assets/skins/player.css">
+    <script src="../assets/ui.js" data-page="player" data-home="../" data-player></script>
 </head>
 <body>
     <noscript><div class="ui-noscript">本工具需要启用 JavaScript 才能使用，请在浏览器设置中开启。</div></noscript>
@@ -37,7 +39,7 @@
   <header class="header">
     <div class="logo">
       <i class="fas fa-play-circle"></i>
-      <h1>视频播放器</h1>
+      <h1>直播源播放器</h1>
     </div>
     <div class="header-actions">
       <button class="btn btn-icon btn-secondary" id="themeToggle" aria-label="切换主题">
@@ -185,7 +187,7 @@
     <div class="setting-group">
       <h4><i class="fas fa-image"></i> 背景定制</h4>
       <div class="input-group" style="margin-bottom: var(--spacing-sm);">
-        <input type="text" id="backgroundURL" placeholder="背景图片URL" />
+        <input type="text" id="backgroundURL" placeholder="背景图片URL（留空为无背景）" />
         <button class="btn btn-secondary" id="applyBackgroundBtn">应用</button>
       </div>
       <div class="slider-group">
@@ -193,7 +195,7 @@
         <input type="range" id="backgroundBlurSlider" min="0" max="20" step="1" value="5" />
         <span id="backgroundBlurValue">5px</span>
       </div>
-      <button class="btn btn-secondary btn-full-width" id="resetBackgroundBtn"><i class="fas fa-redo-alt"></i> 重置背景</button>
+      <button class="btn btn-secondary btn-full-width" id="resetBackgroundBtn"><i class="fas fa-redo-alt"></i> 清除背景</button>
     </div>
 
     <div class="setting-group">

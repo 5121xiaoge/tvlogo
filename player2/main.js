@@ -39,7 +39,7 @@ const supportedFormats = ['mp4', 'm3u8', 'flv', 'webm', 'mkv', 'mov', 'avi', 'wm
 
 let transformSettings = { rotate: 0, scaleX: 1, scaleY: 1, zoom: 100 };
 let filterSettings = { brightness: 100, contrast: 100, saturation: 100, sharpen: 0 };
-let backgroundSettings = { url: 'https://my.bing.xo.je/302/uhd_302.php', blur: 0 };
+let backgroundSettings = { url: '', blur: 0 };
 
 const filterPresets = {
   vibrant: { brightness: 105, contrast: 110, saturation: 150, sharpen: 0 },
@@ -1016,11 +1016,12 @@ function getCurrentProgramFromEpg(channel) {
 }
 
 function clearPlaylist() {
-  if (confirm('确定清空所有播放列表吗？')) {
+  (window.uiConfirm || function (m) { return Promise.resolve(confirm(m)); })('确定清空所有播放列表吗？').then((ok) => {
+            if (!ok) return;
     playlistData.groups = [];
     localStorage.removeItem('playlistData');
     renderPlaylist();
-  }
+  });
 }
 
 function loadPlaylist() {
@@ -2249,7 +2250,7 @@ function setupBackgroundSettings() {
   
   const resetBtn = document.getElementById('resetBackgroundBtn');
   if (resetBtn) resetBtn.addEventListener('click', () => {
-    backgroundSettings = { url: 'https://my.bing.xo.je/302/uhd_302.php', blur: 0 };
+    backgroundSettings = { url: '', blur: 0 };
     if (urlInput) urlInput.value = backgroundSettings.url;
     if (blurSlider) blurSlider.value = 0;
     if (blurValue) blurValue.textContent = '0px';
@@ -2350,7 +2351,7 @@ function loadAllSettings() {
   
   const savedBg = localStorage.getItem('backgroundSettings');
   if (savedBg) {
-    Object.assign(backgroundSettings, JSON.parse(savedBg));
+    Object.assign(backgroundSettings, JSON.parse(savedBg)); if (/my\.bing\.xo\.je/.test(backgroundSettings.url || '')) backgroundSettings.url = '';
     const urlInput = document.getElementById('backgroundURL');
     const blurSlider = document.getElementById('backgroundBlurSlider');
     if (urlInput) urlInput.value = backgroundSettings.url;

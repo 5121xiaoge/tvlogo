@@ -294,7 +294,8 @@ function toggleCompactGroup(toggleElement) {
 
 // ================ 修改：清空所有配置 ================
 function clearAllConfig() {
-    if (confirm('确定要清空所有配置吗？这将会清空代理列表和直播源列表。')) {
+    (window.uiConfirm || function (m) { return Promise.resolve(confirm(m)); })('确定要清空所有配置吗？这将会清空代理列表和直播源列表。').then((ok) => {
+            if (!ok) return;
         if (proxyListTextarea) proxyListTextarea.value = '';
         if (streamListTextarea) streamListTextarea.value = '';
         
@@ -311,7 +312,7 @@ function clearAllConfig() {
         updateStreamCount();
         updateOverallProgress(); // 重置进度条
         addLog('系统', '所有配置已清空', 'success');
-    }
+    });
 }
 
 // 根据屏幕大小调整UI
@@ -2483,13 +2484,14 @@ function clearTestHistory() {
         return;
     }
     
-    if (confirm(`确定要清空所有测试记录吗？当前有 ${testHistory.length} 条记录。`)) {
+    (window.uiConfirm || function (m) { return Promise.resolve(confirm(m)); })(`确定要清空所有测试记录吗？当前有 ${testHistory.length} 条记录。`).then((ok) => {
+            if (!ok) return;
         testHistory = [];
         localStorage.removeItem('proxyTestHistory');
         updateHistoryDisplay();
         updateHistoryCount();
         addLog('系统', '已清空所有测试记录', 'success');
-    }
+    });
 }
 
 // 更新测试记录计数

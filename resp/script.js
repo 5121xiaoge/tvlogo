@@ -129,11 +129,12 @@ function loadHistory() {
 }
 
     function clearAllHistory() {
-        if (confirm('确定要清除所有历史记录吗？此操作不可恢复。')) {
+        (window.uiConfirm || function (m) { return Promise.resolve(confirm(m)); })('确定要清除所有历史记录吗？此操作不可恢复。').then((ok) => {
+            if (!ok) return;
             localStorage.removeItem(HISTORY_STORAGE_KEY);
             updateHistoryDisplay([]);
             addLog('已清除所有历史记录', 'info');
-        }
+        });
     }
 
     function updateHistoryDisplay(history) {
@@ -307,13 +308,14 @@ function loadHistory() {
     }
 
     function deleteHistoryItem(id) {
-        if (confirm('确定要删除这条历史记录吗？')) {
+        (window.uiConfirm || function (m) { return Promise.resolve(confirm(m)); })('确定要删除这条历史记录吗？').then((ok) => {
+            if (!ok) return;
             let history = JSON.parse(localStorage.getItem(HISTORY_STORAGE_KEY)) || [];
             history = history.filter(item => item.id !== id);
             localStorage.setItem(HISTORY_STORAGE_KEY, JSON.stringify(history));
             updateHistoryDisplay(history);
             addLog('已删除历史记录', 'info');
-        }
+        });
     }
 
     function fillFormWithConfig(config) {
