@@ -1283,3 +1283,8 @@ footer {
         width: 100%;
     }
 }
+
+/* 修复：小屏手机上右侧面板 min-width:400px 导致横向溢出 */
+@media (max-width: 768px) {
+    .left-panel, .right-panel { min-width: 0; /* 修复：小屏溢出 */ }
+}

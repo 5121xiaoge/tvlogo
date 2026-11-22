@@ -338,7 +338,7 @@
      top: 0;
      left: 0;
      width: 100vw;
-     height: 100vh;
+     height: 100vh; height: 100dvh;
      display: flex;
      align-items: center;
      justify-content: center;
@@ -584,7 +584,7 @@
      position: fixed;
      width: 320px;
      height: auto;
-     max-height: calc(100vh - 2 * var(--spacing-md));
+     max-height: calc(100vh - 2 * var(--spacing-md)); max-height: calc(100dvh - 2 * var(--spacing-md));
      overflow-y: auto;
      background: var(--card-bg-light);
      backdrop-filter: blur(var(--blur-amount));
@@ -1072,7 +1072,7 @@
      top: 0 !important;
      left: 0 !important;
      width: 100vw !important;
-     height: 100vh !important;
+     height: 100vh !important; height: 100dvh !important;
      padding-top: 0 !important;
      z-index: 9999 !important;
      background: #000 !important;
@@ -1633,4 +1633,24 @@
   padding: 2px 6px;
   border-radius: 4px;
   margin-left: 8px;
+}
+
+/* ===== 移动端安全区（刘海屏 / 横屏 / 底部手势条） ===== */
+@supports (padding: env(safe-area-inset-top)) {
+  body {
+    padding-left: max(var(--spacing-md, 16px), env(safe-area-inset-left));
+    padding-right: max(var(--spacing-md, 16px), env(safe-area-inset-right));
+    padding-bottom: max(var(--spacing-md, 16px), env(safe-area-inset-bottom));
+  }
+  @media (max-width: 768px) {
+    body {
+      padding-left: max(var(--spacing-sm, 8px), env(safe-area-inset-left));
+      padding-right: max(var(--spacing-sm, 8px), env(safe-area-inset-right));
+      padding-bottom: max(var(--spacing-sm, 8px), env(safe-area-inset-bottom));
+    }
+  }
+}
+/* 触屏设备上顶栏图标按钮至少 40px，便于点按 */
+@media (pointer: coarse) {
+  .header .btn-icon { min-width: 40px; min-height: 40px; }
 }

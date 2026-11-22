@@ -2,31 +2,50 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="description" content="直播源工具箱：TXT/M3U 格式转换、直播源响应测试、有效性验证、批量扫描、SOCKS5 代理验证与在线播放器，一站式完成直播源整理与质量评估。">
+    <meta name="theme-color" content="#2196f3" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#121212" media="(prefers-color-scheme: dark)">
+    <meta name="format-detection" content="telephone=no, email=no, address=no">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-capable" content="yes">
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
     <title>直播源工具箱 - 直播源测试验证工具集</title>
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><circle cx='32' cy='32' r='28' fill='%239c27b0'/><path d='M24 20h16v6H24v-6zm-6 6h-4v16h4V26zm28 0h-4v16h4V26zM22 26v16h20V26H22zm-8 18h36v6H14v-6z' fill='white'/></svg>">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer">
     <link rel="stylesheet" href="tools.css">
+
+    <link rel="stylesheet" href="assets/ui.css">
+    <script src="assets/ui.js"></script>
 </head>
 <body>
+    <noscript><div class="ui-noscript">本工具需要启用 JavaScript 才能使用，请在浏览器设置中开启。</div></noscript>
     <div class="container">
         <header class="tools-header">
             <h1>
                 <span class="title-icon">
-                    <i class="fas fa-toolbox"></i>
+                    <i class="fas fa-toolbox" aria-hidden="true"></i>
                 </span>
                 直播源工具箱
             </h1>
-            <p class="subtitle"></p>
+            <p class="subtitle">直播源整理 → 测试 → 验证 → 筛选，一站式完成</p>
         </header>
+
+
+        <div class="tools-search" role="search">
+            <i class="fas fa-search" aria-hidden="true"></i>
+            <input type="search" id="toolSearch" placeholder="搜索工具，例如：播放、代理、M3U" aria-label="搜索工具" autocomplete="off">
+            <span class="tools-search-count" id="toolCount" aria-live="polite"></span>
+        </div>
+        <p class="tools-empty" id="toolEmpty" hidden>没有找到匹配的工具，换个关键词试试。</p>
 
         <div class="tools-grid">
             <!-- 工具0: 直播源格式转换 -->
             <a href="txt2m3u/" class="tool-card" target="_blank" rel="noopener noreferrer">
                 <div class="tool-header">
                     <div class="tool-icon">
-                        <i class="fas fa-exchange-alt"></i>
+                        <i class="fas fa-exchange-alt" aria-hidden="true"></i>
                     </div>
                     <div class="tool-title">
                         <h3>直播源格式转换工具</h3>
@@ -43,9 +62,9 @@
                     </ul>
                 </div>
                 <div class="tool-features">
-                    <span class="feature-tag"><i class="fas fa-sync-alt"></i> 双向转换</span>
-                    <span class="feature-tag"><i class="fas fa-object-group"></i> 智能分组</span>
-                    <span class="feature-tag"><i class="fas fa-magic"></i> 自动净化</span>
+                    <span class="feature-tag"><i class="fas fa-sync-alt" aria-hidden="true"></i> 双向转换</span>
+                    <span class="feature-tag"><i class="fas fa-object-group" aria-hidden="true"></i> 智能分组</span>
+                    <span class="feature-tag"><i class="fas fa-magic" aria-hidden="true"></i> 自动净化</span>
                 </div>
             </a>
 
@@ -53,11 +72,12 @@
             <a href="https://jiemi.110xg.ggff.net/" class="tool-card" target="_blank" rel="noopener noreferrer">
                 <div class="tool-header">
                     <div class="tool-icon">
-                        <i class="fas fa-key"></i>
+                        <i class="fas fa-key" aria-hidden="true"></i>
                     </div>
                     <div class="tool-title">
                         <h3>TVBox 接口解密</h3>
                         <span class="tool-tag">解密工具</span>
+                        <span class="tool-tag tool-tag-ext"><i class="fas fa-external-link-alt" aria-hidden="true"></i> 外部站点</span>
                     </div>
                 </div>
                 <div class="tool-description">
@@ -70,9 +90,9 @@
                     </ul>
                 </div>
                 <div class="tool-features">
-                    <span class="feature-tag"><i class="fas fa-unlock-alt"></i> 接口解密</span>
-                    <span class="feature-tag"><i class="fas fa-code"></i> Base64</span>
-                    <span class="feature-tag"><i class="fas fa-not-equal"></i> 文本对比</span>
+                    <span class="feature-tag"><i class="fas fa-unlock-alt" aria-hidden="true"></i> 接口解密</span>
+                    <span class="feature-tag"><i class="fas fa-code" aria-hidden="true"></i> Base64</span>
+                    <span class="feature-tag"><i class="fas fa-not-equal" aria-hidden="true"></i> 文本对比</span>
                 </div>
             </a>
 
@@ -81,7 +101,7 @@
             <a href="resp/" class="tool-card" target="_blank" rel="noopener noreferrer">
                 <div class="tool-header">
                     <div class="tool-icon">
-                        <i class="fas fa-bolt"></i>
+                        <i class="fas fa-bolt" aria-hidden="true"></i>
                     </div>
                     <div class="tool-title">
                         <h3>直播源响应测试工具</h3>
@@ -98,9 +118,9 @@
                     </ul>
                 </div>
                 <div class="tool-features">
-                    <span class="feature-tag"><i class="fas fa-check-circle"></i> 快速测试</span>
-                    <span class="feature-tag"><i class="fas fa-chart-line"></i> 性能分析</span>
-                    <span class="feature-tag"><i class="fas fa-file-alt"></i> 格式检测</span>
+                    <span class="feature-tag"><i class="fas fa-check-circle" aria-hidden="true"></i> 快速测试</span>
+                    <span class="feature-tag"><i class="fas fa-chart-line" aria-hidden="true"></i> 性能分析</span>
+                    <span class="feature-tag"><i class="fas fa-file-alt" aria-hidden="true"></i> 格式检测</span>
                 </div>
             </a>
 
@@ -108,7 +128,7 @@
             <a href="val/" class="tool-card" target="_blank" rel="noopener noreferrer">
                 <div class="tool-header">
                     <div class="tool-icon">
-                        <i class="fas fa-broadcast-tower"></i>
+                        <i class="fas fa-broadcast-tower" aria-hidden="true"></i>
                     </div>
                     <div class="tool-title">
                         <h3>直播源有效性验证工具</h3>
@@ -125,9 +145,9 @@
                     </ul>
                 </div>
                 <div class="tool-features">
-                    <span class="feature-tag"><i class="fas fa-globe"></i> 代理支持</span>
-                    <span class="feature-tag"><i class="fas fa-shield-alt"></i> 可用验证</span>
-                    <span class="feature-tag"><i class="fas fa-tachometer-alt"></i> 速度测试</span>
+                    <span class="feature-tag"><i class="fas fa-globe" aria-hidden="true"></i> 代理支持</span>
+                    <span class="feature-tag"><i class="fas fa-shield-alt" aria-hidden="true"></i> 可用验证</span>
+                    <span class="feature-tag"><i class="fas fa-tachometer-alt" aria-hidden="true"></i> 速度测试</span>
                 </div>
             </a>
 
@@ -135,7 +155,7 @@
             <a href="scan/" class="tool-card" target="_blank" rel="noopener noreferrer">
                 <div class="tool-header">
                     <div class="tool-icon">
-                        <i class="fas fa-satellite-dish"></i>
+                        <i class="fas fa-satellite-dish" aria-hidden="true"></i>
                     </div>
                     <div class="tool-title">
                         <h3>直播源扫描工具</h3>
@@ -152,9 +172,9 @@
                     </ul>
                 </div>
                 <div class="tool-features">
-                    <span class="feature-tag"><i class="fas fa-bolt"></i> 批量扫描</span>
-                    <span class="feature-tag"><i class="fas fa-code"></i> 模板变量</span>
-                    <span class="feature-tag"><i class="fas fa-layer-group"></i> 并发处理</span>
+                    <span class="feature-tag"><i class="fas fa-bolt" aria-hidden="true"></i> 批量扫描</span>
+                    <span class="feature-tag"><i class="fas fa-code" aria-hidden="true"></i> 模板变量</span>
+                    <span class="feature-tag"><i class="fas fa-layer-group" aria-hidden="true"></i> 并发处理</span>
                 </div>
             </a>
 
@@ -162,7 +182,7 @@
             <a href="socks5/" class="tool-card" target="_blank" rel="noopener noreferrer">
                 <div class="tool-header">
                     <div class="tool-icon">
-                        <i class="fas fa-check-double"></i>
+                        <i class="fas fa-check-double" aria-hidden="true"></i>
                     </div>
                     <div class="tool-title">
                         <h3>SOCKS5代理验证工具</h3>
@@ -179,9 +199,9 @@
                     </ul>
                 </div>
                 <div class="tool-features">
-                    <span class="feature-tag"><i class="fas fa-bolt"></i> 批量验证</span>
-                    <span class="feature-tag"><i class="fas fa-shield-alt"></i> 匿名检测</span>
-                    <span class="feature-tag"><i class="fas fa-sync-alt"></i> 智能匹配</span>
+                    <span class="feature-tag"><i class="fas fa-bolt" aria-hidden="true"></i> 批量验证</span>
+                    <span class="feature-tag"><i class="fas fa-shield-alt" aria-hidden="true"></i> 匿名检测</span>
+                    <span class="feature-tag"><i class="fas fa-sync-alt" aria-hidden="true"></i> 智能匹配</span>
                 </div>
             </a>
 
@@ -189,7 +209,7 @@
             <a href="player/" class="tool-card" target="_blank" rel="noopener noreferrer">
                 <div class="tool-header">
                     <div class="tool-icon">
-                        <i class="fas fa-play-circle"></i>
+                        <i class="fas fa-play-circle" aria-hidden="true"></i>
                     </div>
                     <div class="tool-title">
                         <h3>直播源播放器</h3>
@@ -206,9 +226,9 @@
                     </ul>
                 </div>
                 <div class="tool-features">
-                    <span class="feature-tag"><i class="fas fa-play"></i> 在线播放</span>
-                    <span class="feature-tag"><i class="fas fa-expand"></i> 全屏支持</span>
-                    <span class="feature-tag"><i class="fas fa-mobile-alt"></i> 移动端适配</span>
+                    <span class="feature-tag"><i class="fas fa-play" aria-hidden="true"></i> 在线播放</span>
+                    <span class="feature-tag"><i class="fas fa-expand" aria-hidden="true"></i> 全屏支持</span>
+                    <span class="feature-tag"><i class="fas fa-mobile-alt" aria-hidden="true"></i> 移动端适配</span>
                 </div>
             </a>
 
@@ -216,7 +236,7 @@
             <a href="player2/" class="tool-card" target="_blank" rel="noopener noreferrer">
                 <div class="tool-header">
                     <div class="tool-icon">
-                        <i class="fas fa-video"></i>
+                        <i class="fas fa-video" aria-hidden="true"></i>
                     </div>
                     <div class="tool-title">
                         <h3>增强版直播播放器</h3>
@@ -233,45 +253,20 @@
                     </ul>
                 </div>
                 <div class="tool-features">
-                    <span class="feature-tag"><i class="fas fa-shield-alt"></i> 代理支持</span>
-                    <span class="feature-tag"><i class="fas fa-cog"></i> 解码增强</span>
-                    <span class="feature-tag"><i class="fas fa-film"></i> 播放增强</span>
+                    <span class="feature-tag"><i class="fas fa-shield-alt" aria-hidden="true"></i> 代理支持</span>
+                    <span class="feature-tag"><i class="fas fa-cog" aria-hidden="true"></i> 解码增强</span>
+                    <span class="feature-tag"><i class="fas fa-film" aria-hidden="true"></i> 播放增强</span>
                 </div>
             </a>
-<!-- 占位：更多功能 -->
-            <a href="#" class="tool-card" onclick="comingSoon()" style="cursor: pointer;">
-                <div class="tool-header">
-                    <div class="tool-icon">
-                        <i class="fas fa-plus-circle"></i>
-                    </div>
-                    <div class="tool-title">
-                        <h3>更多功能筹划中</h3>
-                        <span class="tool-tag">敬请期待</span>
-                    </div>
-                </div>
-                <div class="tool-description">
-                    <p>正在构思更多实用的直播源工具。</p>
-                    <ul>
-                        <li>占位符</li>
-                        <li>占位符</li>
-                        <li>占位符</li>
-                        <li>占位符</li>
-                    </ul>
-                </div>
-                <div class="tool-features">
-                    <span class="feature-tag"><i class="fas fa-wrench"></i> 构思开发</span>
-                    <span class="feature-tag"><i class="fas fa-bullhorn"></i> 功能预告</span>
-                    <span class="feature-tag"><i class="fas fa-heart"></i> 暂无需求</span>
-                </div>
-            </a>
+
         </div>
 
         <footer class="tools-footer">
-            <p>直播源工具箱© 2025 | 专为直播源测试验证打造的专业工具集</p>
-            <p style="margin-top: 5px; font-size: 0.85rem;">请遵守相关法律法规，仅用于合法测试和验证目的</p>
+            <p>直播源工具箱 © <span data-year>2025</span> | 专为直播源测试验证打造的专业工具集</p>
+            <p class="footer-note">请遵守相关法律法规，仅用于合法测试和验证目的</p>
             <div class="wechat-info">
                 <div class="wechat-icon">
-                    <i class="fab fa-weixin"></i>
+                    <i class="fab fa-weixin" aria-hidden="true"></i>
                 </div>
                 <div class="wechat-text">
                     BY: <span class="wechat-name">网络</span>
@@ -281,19 +276,36 @@
     </div>
 
     <script>
-        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-            document.body.classList.add('dark-mode');
-        }
-        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
-            if (e.matches) {
-                document.body.classList.add('dark-mode');
-            } else {
-                document.body.classList.remove('dark-mode');
+        (function () {
+            // 深色模式：跟随系统
+            var mq = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)');
+            function apply() { document.body.classList.toggle('dark-mode', !!(mq && mq.matches)); }
+            apply();
+            if (mq && mq.addEventListener) mq.addEventListener('change', apply);
+
+            // 工具搜索（按标题、描述、标签匹配，支持多个关键词）
+            var input = document.getElementById('toolSearch');
+            var cards = Array.prototype.slice.call(document.querySelectorAll('.tool-card'));
+            var count = document.getElementById('toolCount');
+            var empty = document.getElementById('toolEmpty');
+            cards.forEach(function (c) { c.dataset.search = c.textContent.replace(/\s+/g, ' ').toLowerCase(); });
+            function filter() {
+                var words = input.value.trim().toLowerCase().split(/\s+/).filter(Boolean);
+                var shown = 0;
+                cards.forEach(function (c) {
+                    var ok = words.every(function (w) { return c.dataset.search.indexOf(w) >= 0; });
+                    c.hidden = !ok; if (ok) shown++;
+                });
+                count.textContent = words.length ? shown + ' / ' + cards.length : cards.length + ' 个工具';
+                empty.hidden = shown > 0;
             }
-        });
-        function comingSoon() {
-            alert("更多功能正在开发中，敬请期待！");
-        }
+            input.addEventListener('input', filter);
+            document.addEventListener('keydown', function (e) {
+                if (e.key === '/' && document.activeElement !== input) { e.preventDefault(); input.focus(); }
+                if (e.key === 'Escape' && document.activeElement === input) { input.value = ''; filter(); }
+            });
+            filter();
+        })();
     </script>
 </body>
 </html>

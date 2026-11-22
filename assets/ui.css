@@ -1,0 +1,159 @@
+/*!
+ * 直播源工具箱 · 统一界面增强层
+ * 所有页面在自身样式之后引入本文件。只做"增强"，不改变各页面原有布局和配色：
+ *   - 键盘焦点、跳转链接、减少动效、打印样式（可访问性 / 企业规范）
+ *   - 电脑端：超宽屏利用、滚动条、悬停反馈
+ *   - 移动端：安全区（刘海屏）、触控尺寸、禁止 iOS 输入框自动放大、表格横向滚动、长链接换行
+ * 绝大部分选择器使用 :where()（优先级为 0），页面自身样式始终优先。
+ */
+
+:root {
+  --ui-primary: var(--primary-color, #2196f3);
+  --ui-radius: 10px;
+  --ui-focus: 0 0 0 3px color-mix(in srgb, var(--ui-primary) 35%, transparent);
+  --ui-font: system-ui, -apple-system, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans CJK SC", sans-serif;
+  --ui-mono: ui-monospace, "SFMono-Regular", Consolas, "Cascadia Mono", Menlo, monospace;
+}
+
+/* ---------- 基础 ---------- */
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  touch-action: manipulation;          /* 去掉移动端 300ms 点击延迟与双击放大，保留双指缩放 */
+  scroll-padding-top: 16px;
+}
+:where(body) { font-family: var(--ui-font); }
+body { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; text-rendering: optimizeLegibility; }
+:where(img, svg, canvas) { max-width: 100%; }
+:where(pre, code, kbd, samp) { font-family: var(--ui-mono); }
+:where(pre) { overflow-wrap: anywhere; }
+::selection { background: color-mix(in srgb, var(--ui-primary) 25%, transparent); }
+[hidden] { display: none !important; }
+
+/* ---------- 键盘焦点（鼠标点击不显示，键盘 Tab 时显示） ---------- */
+:where(a, button, input, select, textarea, summary, [tabindex], [role="button"]):focus-visible {
+  outline: 2px solid var(--ui-primary) !important;
+  outline-offset: 2px !important;
+  box-shadow: var(--ui-focus);
+}
+:where(button, [role="button"], a.btn, .btn):disabled,
+:where(button, .btn)[aria-disabled="true"] { cursor: not-allowed; opacity: .55; }
+
+#main-content:focus, #main-content:focus-visible { outline: none !important; box-shadow: none !important; }
+
+/* ---------- 跳转到主要内容（仅键盘可见） ---------- */
+.ui-skip {
+  position: fixed; left: 12px; top: -60px; z-index: 100000;
+  padding: 10px 16px; border-radius: 8px;
+  background: var(--ui-primary); color: #fff !important; font-weight: 600; text-decoration: none;
+  transition: top .15s ease;
+}
+.ui-skip:focus { top: 12px; }
+
+/* ---------- 返回工具箱 ---------- */
+.ui-home {
+  display: inline-flex; align-items: center; gap: 6px;
+  margin: 0 0 10px; padding: 5px 12px; border-radius: 999px;
+  font-size: 13px; line-height: 1.4; font-weight: 500; text-decoration: none;
+  color: var(--text-secondary, #666) !important;
+  background: color-mix(in srgb, var(--ui-primary) 8%, transparent);
+  border: 1px solid color-mix(in srgb, var(--ui-primary) 18%, transparent);
+  transition: background .2s, color .2s;
+}
+.ui-home:hover { color: var(--ui-primary) !important; background: color-mix(in srgb, var(--ui-primary) 14%, transparent); }
+.ui-home-row { display: block; text-align: inherit; }
+
+/* ---------- 表格横向滚动容器（JS 自动包裹） ---------- */
+.ui-table-scroll {
+  width: 100%; max-width: 100%;
+  overflow-x: auto; -webkit-overflow-scrolling: touch;
+  overscroll-behavior-x: contain;
+}
+
+/* ---------- 回到顶部 ---------- */
+.ui-top {
+  position: fixed; z-index: 9990;
+  right: max(16px, env(safe-area-inset-right)); bottom: max(20px, env(safe-area-inset-bottom));
+  width: 44px; height: 44px; border-radius: 50%; border: 0;
+  display: grid; place-items: center; cursor: pointer;
+  background: var(--card-bg, #fff); color: var(--ui-primary);
+  box-shadow: 0 6px 20px rgba(0,0,0,.18);
+  opacity: 0; transform: translateY(12px); pointer-events: none;
+  transition: opacity .2s, transform .2s;
+}
+.ui-top.show { opacity: 1; transform: none; pointer-events: auto; }
+.ui-top svg { width: 18px; height: 18px; }
+
+/* ---------- 轻提示（替代阻塞式 alert） ---------- */
+.ui-toast-wrap {
+  position: fixed; z-index: 100001; left: 50%; transform: translateX(-50%);
+  top: max(16px, env(safe-area-inset-top));
+  display: flex; flex-direction: column; gap: 8px; align-items: center;
+  width: min(92vw, 440px); pointer-events: none;
+}
+.ui-toast {
+  pointer-events: auto; width: 100%;
+  display: flex; gap: 10px; align-items: flex-start;
+  padding: 12px 14px; border-radius: var(--ui-radius);
+  background: #1f2937; color: #f9fafb; font-size: 14px; line-height: 1.5;
+  box-shadow: 0 10px 30px rgba(0,0,0,.25);
+  white-space: pre-line; overflow-wrap: anywhere;
+  animation: ui-toast-in .22s ease-out;
+}
+.ui-toast::before { content: "ℹ"; flex: none; width: 20px; height: 20px; border-radius: 50%; display: grid; place-items: center; font-size: 12px; font-weight: 700; background: var(--ui-primary); color: #fff; }
+.ui-toast.out { animation: ui-toast-out .2s ease-in forwards; }
+.ui-toast button { margin-left: auto; flex: none; background: none; border: 0; color: inherit; opacity: .7; cursor: pointer; font-size: 16px; line-height: 1; padding: 0 2px; min-height: 0 !important; }
+@keyframes ui-toast-in { from { opacity: 0; transform: translateY(-8px); } }
+@keyframes ui-toast-out { to { opacity: 0; transform: translateY(-8px); } }
+
+/* ---------- 无 JS 提示 ---------- */
+.ui-noscript { margin: 12px; padding: 12px 16px; border-radius: 8px; background: #fff3cd; color: #664d03; border: 1px solid #ffe69c; font-size: 14px; }
+
+/* ---------- 电脑端 ---------- */
+@media (min-width: 1680px) {
+  .container { max-width: 1560px; }                 /* 超宽屏多利用一些空间 */
+}
+@media (hover: hover) and (pointer: fine) {
+  ::-webkit-scrollbar { width: 10px; height: 10px; }
+  ::-webkit-scrollbar-thumb { background: rgba(127,127,127,.35); border-radius: 8px; border: 2px solid transparent; background-clip: padding-box; }
+  ::-webkit-scrollbar-thumb:hover { background-color: rgba(127,127,127,.55); }
+  ::-webkit-scrollbar-track { background: transparent; }
+}
+
+/* ---------- 移动端 ---------- */
+@media (max-width: 768px) {
+  /* 输入框字号 < 16px 时 iOS 会自动放大页面 */
+  :where(input:not([type="checkbox"]):not([type="radio"]):not([type="range"]), select, textarea) { font-size: 16px !important; }
+  /* 刘海屏 / 横屏安全区 */
+  .container {
+    padding-left: max(12px, env(safe-area-inset-left));
+    padding-right: max(12px, env(safe-area-inset-right));
+    padding-bottom: max(16px, env(safe-area-inset-bottom));
+  }
+  /* 长链接、长频道名不撑破布局 */
+  :where(td, th, li, p, .result-url, .stream-url, .history-url, .url-cell, .log-message, .log-item) { overflow-wrap: anywhere; }
+  .ui-toast-wrap { width: calc(100vw - 24px); }
+}
+@media (pointer: coarse) {
+  /* 触控目标不小于 40px（WCAG 2.5.8）。播放器页的视频内控件尺寸由播放器自己控制，不受影响 */
+  :where(body:not(.ui-player)) :where(button, .btn, select, input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="file"])) { min-height: 40px; }
+  :where(body:not(.ui-player)) :where(input[type="checkbox"], input[type="radio"]) { min-width: 18px; min-height: 18px; }
+  :where(body:not(.ui-player)) :where(input[type="range"]) { min-height: 28px; }
+  :where(body.ui-player) :where(.header button, .sidebar button, .panel button, .modal button) { min-height: 40px; }
+}
+
+/* ---------- 减少动效（系统设置了"减弱动态效果"时） ---------- */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto !important; }
+  *, *::before, *::after {
+    animation-duration: .01ms !important; animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+  }
+}
+
+/* ---------- 打印 ---------- */
+@media print {
+  .ui-top, .ui-toast-wrap, .ui-skip, .ui-home, button, .btn { display: none !important; }
+  body { background: #fff !important; color: #000 !important; }
+  a[href^="http"]::after { content: " (" attr(href) ")"; font-size: 85%; color: #555; }
+}

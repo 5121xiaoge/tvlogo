@@ -2,15 +2,26 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="description" content="直播源批量扫描：按模板变量生成地址并发扫描，自动区分有效、超时与无效源。">
+    <meta name="theme-color" content="#ff9800" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#121212" media="(prefers-color-scheme: dark)">
+    <meta name="format-detection" content="telephone=no, email=no, address=no">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-capable" content="yes">
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
     <title>扫源工具-直播源扫描</title>
      <!-- 圆形Favicon -->
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><circle cx='32' cy='32' r='28' fill='%23ff9800'/><circle cx='32' cy='32' r='14' fill='none' stroke='white' stroke-width='3'/><circle cx='32' cy='32' r='6' fill='white'/><path d='M32 18v28M18 32h28' stroke='white' stroke-width='2'/></svg>">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer">
     <link rel="stylesheet" href="style.css">
+
+    <link rel="stylesheet" href="../assets/ui.css">
+    <script src="../assets/ui.js" data-home="../"></script>
 </head>
 <body>
+    <noscript><div class="ui-noscript">本工具需要启用 JavaScript 才能使用，请在浏览器设置中开启。</div></noscript>
     <div class="container">
         <header>
             <h1><span class="title-icon" style="display: inline-flex; align-items: center; justify-content: center; width: 30px; height: 30px; background-color: #ff9800; border-radius: 50%; margin-right: 10px;">
