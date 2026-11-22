@@ -1460,12 +1460,13 @@ function removeHistoryItem(index) {
 }
 
 function clearHistory() {
-  if (confirm('确定要清空所有播放历史吗？')) {
+  (window.uiConfirm || function (m) { return Promise.resolve(confirm(m)); })('确定要清空所有播放历史吗？').then((ok) => {
+            if (!ok) return;
     playbackHistory = [];
     localStorage.removeItem('playbackHistory');
     renderHistory();
     currentPlayingHistoryIndex = -1;
-  }
+  });
 }
 
 function startEditMode(index) {

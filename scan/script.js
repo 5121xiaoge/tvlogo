@@ -732,12 +732,13 @@ const result = {
     }
     
     deleteHistoryItem(id) {
-        if (confirm('确定要删除这条扫描记录吗？')) {
+        (window.uiConfirm || function (m) { return Promise.resolve(confirm(m)); })('确定要删除这条扫描记录吗？').then((ok) => {
+            if (!ok) return;
             this.history = this.history.filter(item => item.id !== id);
             localStorage.setItem('scanner_history', JSON.stringify(this.history));
             this.updateHistoryDisplay();
             this.addLog('已删除扫描记录', 'info');
-        }
+        });
     }
     
     clearHistory() {
@@ -746,12 +747,13 @@ const result = {
             return;
         }
         
-        if (confirm('确定要清空所有扫描记录吗？此操作不可恢复。')) {
+        (window.uiConfirm || function (m) { return Promise.resolve(confirm(m)); })('确定要清空所有扫描记录吗？此操作不可恢复。').then((ok) => {
+            if (!ok) return;
             this.history = [];
             localStorage.removeItem('scanner_history');
             this.updateHistoryDisplay();
             this.addLog('已清空所有扫描记录', 'info');
-        }
+        });
     }
     
     formatTime(date) {
@@ -1123,7 +1125,8 @@ exportResults() {
         return;
     }
     
-    if (confirm('确定要清空所有扫描结果吗？')) {
+    (window.uiConfirm || function (m) { return Promise.resolve(confirm(m)); })('确定要清空所有扫描结果吗？').then((ok) => {
+            if (!ok) return;
         this.state.results = { valid: [], timeout: [], invalid: [] };
         this.state.stats = {
             total: 0,
@@ -1144,7 +1147,7 @@ exportResults() {
         
         document.getElementById('scan-info').style.display = 'none';
         document.getElementById('export-btn').disabled = true;
-    }
+    });
 }
     
     clearLog() {

@@ -193,12 +193,13 @@ document.addEventListener('DOMContentLoaded', function() {
                     return;
                 }
                 
-                if (confirm(`确定要清除所有${testRecords.length}条测试记录吗？`)) {
+                (window.uiConfirm || function (m) { return Promise.resolve(confirm(m)); })(`确定要清除所有${testRecords.length}条测试记录吗？`).then((ok) => {
+            if (!ok) return;
                     testRecords = [];
                     saveTestRecords();
                     updateRecordsDisplay();
                     addLog('所有测试记录已清除', 'info');
-                }
+                });
             });
         }
 
@@ -209,11 +210,12 @@ document.addEventListener('DOMContentLoaded', function() {
                     return;
                 }
                 
-                if (confirm('确定要清除所有日志吗？')) {
+                (window.uiConfirm || function (m) { return Promise.resolve(confirm(m)); })('确定要清除所有日志吗？').then((ok) => {
+            if (!ok) return;
                     logBox.innerHTML = '';
                     currentTestLogs = [];
                     addLog('日志已清除', 'info');
-                }
+                });
             });
         }
 
@@ -763,12 +765,13 @@ function parseChannelList(text) {
 }
 
     function deleteRecord(index) {
-        if (confirm('确定要删除这条测试记录吗？')) {
+        (window.uiConfirm || function (m) { return Promise.resolve(confirm(m)); })('确定要删除这条测试记录吗？').then((ok) => {
+            if (!ok) return;
             testRecords.splice(index, 1);
             saveTestRecords();
             updateRecordsDisplay();
             addLog('测试记录已删除', 'info');
-        }
+        });
     }
 
     function saveTestRecords() {

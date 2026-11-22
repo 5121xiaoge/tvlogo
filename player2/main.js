@@ -1016,11 +1016,12 @@ function getCurrentProgramFromEpg(channel) {
 }
 
 function clearPlaylist() {
-  if (confirm('确定清空所有播放列表吗？')) {
+  (window.uiConfirm || function (m) { return Promise.resolve(confirm(m)); })('确定清空所有播放列表吗？').then((ok) => {
+            if (!ok) return;
     playlistData.groups = [];
     localStorage.removeItem('playlistData');
     renderPlaylist();
-  }
+  });
 }
 
 function loadPlaylist() {
