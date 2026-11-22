@@ -4,7 +4,7 @@
  * 作用范围（由 ui.js 在 <head> 阶段写到 <html> 上，无闪烁）：
  *   html[data-page="home"]                  首页
  *   html.ui-tool  (resp / scan / socks5 / val / txt2m3u)  工具页
- *   html[data-page="player"]                播放器（只做令牌级微调，不动播放控件）
+ *   html:is([data-page="player"],[data-page="player2"])                播放器（只做令牌级微调，不动播放控件）
  * 只改视觉与布局，不改任何 id / class / 交互逻辑；删除本文件即可回到旧样式。
  */
 
@@ -33,7 +33,9 @@
   --t-shadow-sm: 0 1px 3px rgba(16, 24, 40, .06), 0 1px 2px rgba(16, 24, 40, .04);
   --t-shadow-md: 0 6px 16px -4px rgba(16, 24, 40, .10), 0 2px 4px -2px rgba(16, 24, 40, .05);
   --t-shadow-lg: 0 24px 48px -12px rgba(16, 24, 40, .24);
-  --t-ring: 0 0 0 3px rgba(37, 99, 235, .16);
+  --t-brand-2: #4f8bff;
+  --t-on-brand: #fff;
+  --t-ring: 0 0 0 3px color-mix(in srgb, var(--t-brand) 18%, transparent);
   --t-h: 38px; --t-h-sm: 32px;
   --t-ease: cubic-bezier(.2, .7, .3, 1);
 }
@@ -55,7 +57,7 @@
     --t-shadow-sm: 0 1px 3px rgba(0, 0, 0, .35);
     --t-shadow-md: 0 8px 20px -6px rgba(0, 0, 0, .50);
     --t-shadow-lg: 0 24px 48px -12px rgba(0, 0, 0, .65);
-    --t-ring: 0 0 0 3px rgba(59, 130, 246, .35);
+    --t-ring: 0 0 0 3px color-mix(in srgb, var(--t-brand) 38%, transparent);
   }
 }
 
@@ -111,9 +113,9 @@ html.ui-tool .container > header .title-icon {
   width: 38px !important; height: 38px !important; margin: 0 !important;
   border-radius: 10px !important;
   background: var(--t-brand) !important;
-  background-image: linear-gradient(135deg, var(--t-brand), #4f8bff) !important;
+  background-image: linear-gradient(135deg, var(--t-brand), var(--t-brand-2)) !important;
   color: #fff !important; font-size: 16px !important;
-  box-shadow: 0 4px 10px -2px rgba(37, 99, 235, .35);
+  box-shadow: 0 4px 10px -2px color-mix(in srgb, var(--t-brand) 40%, transparent);
 }
 html.ui-tool .container > header .title-icon i { color: #fff !important; font-size: 16px !important; }
 html.ui-tool .container > header .subtitle {
@@ -148,10 +150,10 @@ html.ui-tool .bottom-panels { gap: 20px; margin-bottom: 20px; }
    ========================================================================== */
 html.ui-tool .panel {
   background: var(--t-surface);
-  border: 1px solid var(--t-border);
-  border-radius: var(--t-r-lg);
-  box-shadow: var(--t-shadow-sm);
-  padding: 20px;
+  border: 1px solid var(--t-panel-border, var(--t-border));
+  border-radius: var(--t-panel-r, var(--t-r-lg));
+  box-shadow: var(--t-panel-shadow, var(--t-shadow-sm));
+  padding: var(--t-panel-pad, 20px);
 }
 html.ui-tool .panel-title {
   gap: 8px; min-height: 32px;
@@ -208,8 +210,8 @@ html.ui-tool .form-group label i { color: var(--t-text-3); margin-right: 4px; }
 
 html.ui-tool :is(input[type="text"], input[type="number"], input[type="password"], input[type="url"], input[type="search"], input[type="email"], select, textarea) {
   border: 1px solid var(--t-border-strong);
-  border-radius: var(--t-r);
-  background-color: var(--t-surface);
+  border-radius: var(--t-input-r, var(--t-r));
+  background-color: var(--t-input-bg, var(--t-surface));
   color: var(--t-text);
   font-size: 14px;
   box-shadow: var(--t-shadow-xs);
@@ -252,7 +254,7 @@ html.ui-tool .input-tip { font-size: 12.5px; color: var(--t-text-3); }
 html.ui-tool :is(.btn, .btn-clear, .btn-icon, #clear-results-btn) {
   display: inline-flex; align-items: center; justify-content: center; gap: 6px;
   min-height: var(--t-h); padding: 0 16px; margin-bottom: 0;
-  border: 1px solid transparent; border-radius: var(--t-r);
+  border: 1px solid transparent; border-radius: var(--t-btn-r, var(--t-r));
   font-size: 14px; font-weight: 500; line-height: 1.2; letter-spacing: .01em;
   white-space: nowrap; cursor: pointer;
   box-shadow: var(--t-shadow-xs); transform: none;
@@ -274,7 +276,7 @@ html.ui-tool .btn:not([class*="btn-"]),
 html.ui-tool .btn.btn-primary,
 html[data-page="socks5"] #full-test-btn,
 html[data-page="txt2m3u"] .button-group .btn-primary {
-  background: var(--t-brand); border-color: var(--t-brand); color: #fff;
+  background: var(--t-brand); border-color: var(--t-brand); color: var(--t-on-brand);
 }
 html.ui-tool .btn:not([class*="btn-"]):hover,
 html.ui-tool .btn.btn-primary:hover,
@@ -303,7 +305,7 @@ html[data-page="scan"] #export-btn,
 html[data-page="socks5"] :is(#load-example-streams, #load-sample-txt, #copy-matched-urls-btn),
 html[data-page="val"] :is(#load-example-urls, #clear-urls, #export-valid-report-btn, #clear-records-btn, #clear-log-btn),
 html[data-page="txt2m3u"] .button-group :is(.btn-info, .btn-warning, .btn-error) {
-  background: var(--t-surface); border-color: var(--t-border-strong); color: var(--t-text);
+  background: var(--t-btn2-bg, var(--t-surface)); border-color: var(--t-btn2-border, var(--t-border-strong)); color: var(--t-btn2-text, var(--t-text));
 }
 html.ui-tool :is(.btn.btn-info, .btn.btn-export, .btn.btn-secondary, .btn-clear):hover,
 html[data-page="resp"] :is(#clear-btn, #example-btn):hover,
@@ -311,7 +313,7 @@ html[data-page="scan"] #export-btn:hover,
 html[data-page="socks5"] :is(#load-example-streams, #load-sample-txt, #copy-matched-urls-btn):hover,
 html[data-page="val"] :is(#load-example-urls, #clear-urls, #export-valid-report-btn, #clear-records-btn, #clear-log-btn):hover,
 html[data-page="txt2m3u"] .button-group :is(.btn-info, .btn-warning, .btn-error):hover {
-  background: var(--t-surface-2); border-color: var(--t-border-hover); color: var(--t-text);
+  background: var(--t-btn2-hover, var(--t-surface-2)); border-color: var(--t-border-hover); color: var(--t-btn2-text, var(--t-text));
 }
 /* 次要按钮中的图标带语义色 */
 html.ui-tool :is(.btn-export, #export-btn, #export-valid-report-btn) i { color: var(--t-success); }
@@ -499,7 +501,7 @@ html[data-page="val"] .progress-bar {
 html.ui-tool .progress-container .progress-bar,
 html[data-page="val"] .progress-fill {
   border-radius: var(--t-r-pill);
-  background: linear-gradient(90deg, var(--t-brand), #60a5fa);
+  background: linear-gradient(90deg, var(--t-brand), var(--t-brand-2));
 }
 
 /* 空状态 */
@@ -618,24 +620,30 @@ html[data-page="home"] .feature-tag {
 html[data-page="home"] .tools-footer { border-top: 1px solid var(--t-border); color: var(--t-text-3); font-size: 13px; }
 html[data-page="home"] .wechat-info { border-radius: var(--t-r-pill); }
 
+
+/* 首页卡片图标与各工具皮肤同色 */
+html[data-page="home"] .tool-card[href="txt2m3u/"] .tool-icon { background: linear-gradient(135deg, #0f766e, #14b8a6); }
+html[data-page="home"] .tool-card[href="resp/"]    .tool-icon { background: linear-gradient(135deg, #ea580c, #fb923c); }
+html[data-page="home"] .tool-card[href="val/"]     .tool-icon { background: linear-gradient(135deg, #047857, #10b981); }
+html[data-page="home"] .tool-card[href="scan/"]    .tool-icon { background: linear-gradient(135deg, #1e3a8a, #2f55d4); }
+html[data-page="home"] .tool-card[href="socks5/"]  .tool-icon { background: linear-gradient(135deg, #0b1220, #0891b2); }
+html[data-page="home"] .tool-card[href="player/"]  .tool-icon { background: linear-gradient(135deg, #9f1239, #e11d48); }
+html[data-page="home"] .tool-card[href="player2/"] .tool-icon { background: linear-gradient(135deg, #6d28d9, #a78bfa); }
+
 /* ==========================================================================
    11. 播放器（令牌级微调，不改变控件尺寸）
    ========================================================================== */
-html[data-page="player"] {
-  --primary-color: #3b6cf6;
-  --primary-dark-color: #2b56d6;
-}
-html[data-page="player"] .header { backdrop-filter: saturate(160%) blur(12px); -webkit-backdrop-filter: saturate(160%) blur(12px); }
-html[data-page="player"] .logo h1 { font-size: 17px; font-weight: 650; letter-spacing: -.01em; }
-html[data-page="player"] .btn { font-weight: 500; letter-spacing: .01em; }
-html[data-page="player"] .btn-primary { box-shadow: 0 4px 12px -4px rgba(59, 108, 246, .55); }
-html[data-page="player"] .btn-primary:hover { background: var(--primary-dark-color); }
-html[data-page="player"] .drawer-panel { border: 1px solid var(--border-light); }
-html[data-page="player"] body.dark-mode .drawer-panel { border-color: var(--border-dark); }
-html[data-page="player"] .drawer-header { color: inherit; font-size: 16px; }
-html[data-page="player"] .setting-group h4 { font-size: 13px; font-weight: 600; letter-spacing: .02em; opacity: .75; }
-html[data-page="player"] .status-indicator { padding: 6px 12px; font-size: 12.5px; border-radius: 999px; }
-html[data-page="player"] .input-group input[type="text"] { border-radius: 10px; }
+html:is([data-page="player"],[data-page="player2"]) .header { backdrop-filter: saturate(160%) blur(12px); -webkit-backdrop-filter: saturate(160%) blur(12px); }
+html:is([data-page="player"],[data-page="player2"]) .logo h1 { font-size: 17px; font-weight: 650; letter-spacing: -.01em; }
+html:is([data-page="player"],[data-page="player2"]) .btn { font-weight: 500; letter-spacing: .01em; }
+html:is([data-page="player"],[data-page="player2"]) .btn-primary { box-shadow: 0 4px 12px -4px color-mix(in srgb, var(--primary-color) 55%, transparent); }
+html:is([data-page="player"],[data-page="player2"]) .btn-primary:hover { background: var(--primary-dark-color); }
+html:is([data-page="player"],[data-page="player2"]) .drawer-panel { border: 1px solid var(--border-light); }
+html:is([data-page="player"],[data-page="player2"]) body.dark-mode .drawer-panel { border-color: var(--border-dark); }
+html:is([data-page="player"],[data-page="player2"]) .drawer-header { color: inherit; font-size: 16px; }
+html:is([data-page="player"],[data-page="player2"]) .setting-group h4 { font-size: 13px; font-weight: 600; letter-spacing: .02em; opacity: .75; }
+html:is([data-page="player"],[data-page="player2"]) .status-indicator { padding: 6px 12px; font-size: 12.5px; border-radius: 999px; }
+html:is([data-page="player"],[data-page="player2"]) .input-group input[type="text"] { border-radius: 10px; }
 
 /* ==========================================================================
    12. 响应式

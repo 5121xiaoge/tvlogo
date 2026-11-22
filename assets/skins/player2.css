@@ -1,0 +1,78 @@
+/*!
+ * 皮肤 · 增强版直播播放器（player2）
+ * 定位：IPTV 直播控制台 —— 紫罗兰强调 / 深靛背景 / 宽屏左右分栏
+ * 布局（≥1200px）：
+ *   ┌ 顶栏 ─────────────────────────────────────┐
+ *   │ 画面（自适应）            │ 控制面板 380px（吸顶）│
+ *   └───────────────────────────┴───────────────────┘
+ * 小于 1200px 时恢复上下结构；播放列表 / EPG / 设置抽屉不变
+ */
+html[data-page="player2"] {
+  --primary-color: #7c3aed; --primary-dark-color: #6d28d9;
+  --bg-light: #f1effa; --bg-dark: #0b0918;
+  --card-bg-light: rgba(255, 255, 255, .86); --card-bg-dark: rgba(20, 16, 38, .86);
+  --border-light: rgba(46, 16, 101, .10); --border-dark: rgba(196, 181, 253, .10);
+  --input-bg-light: rgba(46, 16, 101, .04); --input-bg-dark: rgba(196, 181, 253, .06);
+  --shadow-light: 0 20px 50px -24px rgba(46, 16, 101, .35); --shadow-dark: 0 24px 60px -20px rgba(0, 0, 0, .8);
+  --border-radius-card: 16px; --border-radius-element: 10px;
+}
+html[data-page="player2"] body {
+  background-image:
+    radial-gradient(800px 420px at 0% 0%, rgba(124, 58, 237, .12), transparent 70%),
+    radial-gradient(700px 380px at 100% 0%, rgba(59, 130, 246, .08), transparent 70%);
+  background-repeat: no-repeat;
+}
+html[data-page="player2"] body.dark-mode {
+  background-image:
+    radial-gradient(900px 460px at 0% 0%, rgba(124, 58, 237, .25), transparent 70%),
+    radial-gradient(800px 420px at 100% 0%, rgba(59, 130, 246, .12), transparent 70%);
+}
+html[data-page="player2"] #app-container { border: 1px solid var(--border-light); }
+html[data-page="player2"] body.dark-mode #app-container { border-color: var(--border-dark); }
+
+/* 顶栏：LIVE 标识 */
+html[data-page="player2"] .logo i { color: var(--primary-color); }
+html[data-page="player2"] .logo h1::after {
+  content: "LIVE"; margin-left: 8px; padding: 2px 7px; border-radius: 4px; vertical-align: 2px;
+  background: #ef4444; color: #fff; font-size: 10.5px; font-weight: 700; letter-spacing: .08em;
+}
+
+/* 画面与线路切换 */
+html[data-page="player2"] .video-player-section { box-shadow: 0 20px 44px -24px rgba(46, 16, 101, .6); }
+html[data-page="player2"] .line-btn { background: rgba(124, 58, 237, .55); }
+html[data-page="player2"] .line-btn:hover { background: rgba(124, 58, 237, .85); }
+html[data-page="player2"] .upload-placeholder i { color: var(--primary-color); }
+
+/* 控制面板 */
+html[data-page="player2"] .main-control-bar { padding: 18px; }
+html[data-page="player2"] .btn-primary { box-shadow: 0 8px 18px -8px rgba(124, 58, 237, .8); font-weight: 600; }
+html[data-page="player2"] .status-indicator { align-self: stretch; justify-content: center; }
+
+/* 播放列表 / EPG */
+html[data-page="player2"] .tab-btn.active { font-weight: 600; }
+html[data-page="player2"] .playlist-group-header { border-radius: 8px; }
+html[data-page="player2"] .epg-time { color: var(--primary-color); }
+
+/* ===== 宽屏：左右分栏 ===== */
+@media (min-width: 1200px) {
+  html[data-page="player2"] #app-container { max-width: 1500px; }
+  html[data-page="player2"] .main-content {
+    display: grid; grid-template-columns: minmax(0, 1fr) 380px; gap: 18px; align-items: start; padding: 16px;
+  }
+  html[data-page="player2"] .video-player-section { min-height: 460px; }
+  html[data-page="player2"] .main-control-bar {
+    position: sticky; top: 76px; max-height: calc(100dvh - 96px); overflow-y: auto;
+    border: 1px solid var(--border-light); border-radius: 14px; background: var(--input-bg-light);
+  }
+  html[data-page="player2"] body.dark-mode .main-control-bar { border-color: var(--border-dark); background: var(--input-bg-dark); }
+  html[data-page="player2"] .main-control-bar .input-group { flex-direction: column; }
+  html[data-page="player2"] .main-control-bar .input-group input[type="text"],
+  html[data-page="player2"] .main-control-bar .input-group .btn { width: 100%; min-width: 0; }
+  html[data-page="player2"] .bottom-row { flex-wrap: wrap; }
+  html[data-page="player2"] .proxy-header { flex-wrap: wrap; }
+}
+@media (max-width: 768px) {
+  html[data-page="player2"] .logo h1 { font-size: 15px; }
+  html[data-page="player2"] .logo h1::after { font-size: 9.5px; padding: 1px 5px; }
+  html[data-page="player2"] .main-control-bar { padding: 14px; }
+}

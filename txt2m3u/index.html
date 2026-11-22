@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <meta name="description" content="TXT 与 M3U 直播源格式双向转换，支持智能分组、频道名净化、Logo 与 EPG 自动生成，结果一键复制或下载。">
-    <meta name="theme-color" content="#2196f3" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="var(--primary-color)" media="(prefers-color-scheme: light)">
     <meta name="theme-color" content="#121212" media="(prefers-color-scheme: dark)">
     <meta name="format-detection" content="telephone=no, email=no, address=no">
     <meta name="mobile-web-app-capable" content="yes">
@@ -176,7 +176,7 @@ textarea {
 
 textarea:focus {
     border-color: var(--primary-color);
-    box-shadow: 0 0 0 2px rgba(33, 150, 243, 0.2);
+    box-shadow: 0 0 0 2px color-mix(in srgb, var(--primary-color) 20%, transparent);
     outline: none;
     background-color: white;
 }
@@ -283,7 +283,7 @@ input[type="text"] {
 
 input[type="text"]:focus {
     border-color: var(--primary-color);
-    box-shadow: 0 0 0 2px rgba(33, 150, 243, 0.2);
+    box-shadow: 0 0 0 2px color-mix(in srgb, var(--primary-color) 20%, transparent);
     outline: none;
 }
 
@@ -344,7 +344,7 @@ input[type="text"]:focus {
 }
 
 .btn-primary { background: var(--primary-color); }
-.btn-primary:hover { background: #1e87e5; }
+.btn-primary:hover { background: var(--primary-color); }
 
 .btn-secondary { background: var(--secondary-color); }
 .btn-secondary:hover { background: #43a047; }
@@ -435,7 +435,7 @@ footer {
     
     input[type="text"]:focus, textarea:focus {
         background-color: #444444;
-        box-shadow: 0 0 0 2px rgba(33, 150, 243, 0.4);
+        box-shadow: 0 0 0 2px color-mix(in srgb, var(--primary-color) 40%, transparent);
         outline: none;
     }
     
@@ -456,6 +456,7 @@ footer {
 
     <link rel="stylesheet" href="../assets/ui.css">
     <link rel="stylesheet" href="../assets/theme.css">
+    <link rel="stylesheet" href="../assets/skins/txt2m3u.css">
     <script src="../assets/ui.js" data-page="txt2m3u" data-home="../"></script>
 </head>
 <body>
@@ -561,7 +562,7 @@ footer {
     </div>
     
     <footer>
-        <p>TXT ⇄ M3U 转换工具 &copy; 2025 | 支持重新分组、频道名净化、Logo自动生成、结果一键下载</p>
+        <p>TXT ⇄ M3U 转换工具 &copy; <span data-year>2026</span> | 支持重新分组、频道名净化、Logo自动生成、结果一键下载</p>
         <p style="margin-top: 5px; font-size: 0.8rem;">基于分组规则智能分类，支持央视、卫视、各省台、港澳台、国际频道自动识别</p>
     </footer>
 </div>

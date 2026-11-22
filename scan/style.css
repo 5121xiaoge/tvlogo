@@ -156,7 +156,7 @@ input:focus,
 textarea:focus,
 select:focus {
     border-color: var(--primary-color);
-    box-shadow: 0 0 0 2px rgba(33, 150, 243, 0.2);
+    box-shadow: 0 0 0 2px color-mix(in srgb, var(--primary-color) 20%, transparent);
     outline: none;
     background-color: var(--card-bg);
 }
@@ -200,7 +200,7 @@ textarea {
 
 .toggle-password-btn:hover {
     color: var(--primary-color);
-    background: rgba(33, 150, 243, 0.05);
+    background: color-mix(in srgb, var(--primary-color) 5%, transparent);
 }
 
 .buttons {
@@ -237,7 +237,7 @@ textarea {
 }
 
 .btn:first-child:hover {
-    background-color: #1e87e5;
+    background-color: var(--primary-color);
 }
 
 .btn-danger {
@@ -376,7 +376,7 @@ textarea {
     padding-left: 10px;
     background-color: #e3f2fd;
     border: 1px solid #bbdefb;
-    color: #1e88e5;
+    color: var(--primary-color);
     border-radius: 4px;
     font-size: 0.8rem;
     margin-top: 5px;
@@ -650,7 +650,7 @@ textarea {
 
 .history-fill-btn {
     color: var(--primary-color);
-    background-color: rgba(33, 150, 243, 0.1);
+    background-color: color-mix(in srgb, var(--primary-color) 10%, transparent);
 }
 
 .history-fill-btn:hover {
@@ -911,7 +911,7 @@ textarea {
     textarea:focus,
     select:focus {
         background-color: #444444;
-        box-shadow: 0 0 0 2px rgba(33, 150, 243, 0.4);
+        box-shadow: 0 0 0 2px color-mix(in srgb, var(--primary-color) 40%, transparent);
     }
     
     .result-item.invalid {
@@ -995,7 +995,7 @@ textarea {
     
     .history-fill-btn {
         color: #90caf9;
-        background-color: rgba(33, 150, 243, 0.2);
+        background-color: color-mix(in srgb, var(--primary-color) 20%, transparent);
     }
     
     .history-fill-btn:hover {
@@ -1325,7 +1325,7 @@ textarea {
     padding: 6px 10px;
     background-color: #e3f2fd;
     border: 1px solid #bbdefb;
-    color: #1e88e5;
+    color: var(--primary-color);
     border-radius: 4px;
     font-size: 0.8rem;
     margin-top: 8px;
@@ -1460,7 +1460,7 @@ textarea {
     }
     
     .btn-primary {
-        background-color: #1976d2;
+        background-color: var(--primary-color);
         color: white;
     }
     

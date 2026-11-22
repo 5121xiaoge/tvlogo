@@ -1,0 +1,64 @@
+/*!
+ * 皮肤 · 直播源播放器（player）
+ * 定位：影院 —— 绯红强调 / 石墨深底 / 大画面居中 / 控制栏为悬浮底座
+ * 布局：画面占满主区，控制栏在画面下方作为独立底座（电脑端与移动端都是上下结构）
+ * 深浅色仍由播放器自带的“切换主题”按钮控制（body.dark-mode）
+ */
+html[data-page="player"] {
+  --primary-color: #e11d48; --primary-dark-color: #be123c;
+  --bg-light: #eeeef0; --bg-dark: #09090b;
+  --card-bg-light: rgba(255, 255, 255, .84); --card-bg-dark: rgba(20, 20, 24, .84);
+  --border-light: rgba(24, 24, 27, .09); --border-dark: rgba(255, 255, 255, .08);
+  --input-bg-light: rgba(24, 24, 27, .04); --input-bg-dark: rgba(255, 255, 255, .05);
+  --shadow-light: 0 20px 50px -20px rgba(24, 24, 27, .25); --shadow-dark: 0 24px 60px -20px rgba(0, 0, 0, .8);
+  --border-radius-card: 20px; --border-radius-element: 12px;
+}
+html[data-page="player"] body {
+  background-image: radial-gradient(1000px 500px at 50% -200px, rgba(225, 29, 72, .10), transparent 70%);
+  background-repeat: no-repeat;
+}
+html[data-page="player"] body.dark-mode {
+  background-image: radial-gradient(1100px 520px at 50% -180px, rgba(225, 29, 72, .20), transparent 70%),
+                    linear-gradient(180deg, #0c0c0f, #09090b);
+}
+html[data-page="player"] #app-container { max-width: 1320px; border: 1px solid var(--border-light); }
+html[data-page="player"] body.dark-mode #app-container { border-color: var(--border-dark); }
+
+/* 顶栏 */
+html[data-page="player"] .header { padding-top: 12px; padding-bottom: 12px; }
+html[data-page="player"] .logo i {
+  width: 36px; height: 36px; display: grid; place-items: center; border-radius: 10px; font-size: 18px;
+  color: #fff; background: linear-gradient(135deg, #e11d48, #9f1239); box-shadow: 0 6px 14px -6px rgba(225, 29, 72, .8);
+}
+
+/* 画面：更深的影院阴影 */
+html[data-page="player"] .video-player-section { box-shadow: 0 30px 60px -28px rgba(0, 0, 0, .55), 0 0 0 1px rgba(0, 0, 0, .06); }
+html[data-page="player"] body.dark-mode .video-player-section { box-shadow: 0 30px 70px -24px rgba(225, 29, 72, .25), 0 0 0 1px rgba(255, 255, 255, .05); }
+html[data-page="player"] .upload-placeholder i { color: var(--primary-color); }
+
+/* 控制栏：底座 */
+html[data-page="player"] .main-control-bar {
+  margin: 0 4px 4px; padding: 18px 20px; border: 1px solid var(--border-light); border-radius: 16px;
+  background: color-mix(in srgb, var(--bg-light) 55%, transparent);
+}
+html[data-page="player"] body.dark-mode .main-control-bar { background: rgba(255, 255, 255, .025); border-color: var(--border-dark); }
+html[data-page="player"] .input-group input[type="text"] { background: var(--card-bg-light); }
+html[data-page="player"] body.dark-mode .input-group input[type="text"] { background: rgba(0, 0, 0, .25); }
+html[data-page="player"] .btn-primary { font-weight: 600; }
+html[data-page="player"] .proxy-section { border: 1px dashed var(--border-light); }
+html[data-page="player"] body.dark-mode .proxy-section { border-color: var(--border-dark); }
+
+/* 抽屉 */
+html[data-page="player"] .drawer-header { border-bottom-color: var(--border-light); }
+html[data-page="player"] .history-item.playing { box-shadow: inset 3px 0 0 var(--primary-color); }
+
+@media (min-width: 1200px) {
+  html[data-page="player"] .video-player-section { min-height: 420px; }
+  html[data-page="player"] .main-content { padding: 16px 20px 20px; gap: 18px; }
+}
+@media (max-width: 768px) {
+  html[data-page="player"] .header { padding-top: 8px; padding-bottom: 8px; }
+  html[data-page="player"] .logo i { width: 30px; height: 30px; font-size: 15px; border-radius: 8px; }
+  html[data-page="player"] .logo h1 { font-size: 15px; }
+  html[data-page="player"] .main-control-bar { margin: 0; padding: 14px; border-radius: 12px; }
+}

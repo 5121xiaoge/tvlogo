@@ -259,7 +259,7 @@
      color: var(--text-light);
 }
  .speed-menu button:hover {
-     background: rgba(106, 141, 255, 0.1);
+     background: color-mix(in srgb, var(--primary-color) 10%, transparent);
 }
  .speed-menu button.active-speed-btn {
      background: var(--primary-color);
@@ -389,7 +389,7 @@
 }
  .upload-placeholder.drag-over {
      border-color: var(--primary-color);
-     background: rgba(106, 141, 255, 0.1);
+     background: color-mix(in srgb, var(--primary-color) 10%, transparent);
 }
  .upload-placeholder.hidden {
      display: none;
@@ -513,7 +513,7 @@
  .input-group input[type="text"]:focus {
      border-color: var(--primary-color);
      outline: none;
-     box-shadow: 0 0 0 3px rgba(106, 141, 255, 0.2);
+     box-shadow: 0 0 0 3px color-mix(in srgb, var(--primary-color) 20%, transparent);
 }
  .btn-group {
      display: flex;
@@ -693,7 +693,7 @@
      cursor: pointer;
 }
  .history-item:hover {
-     background-color: rgba(106, 141, 255, 0.05);
+     background-color: color-mix(in srgb, var(--primary-color) 5%, transparent);
 }
  .history-item .title-wrapper {
      flex: 1;
@@ -733,7 +733,7 @@
      align-items: center;
 }
  .history-item .actions button:hover {
-     background: rgba(106, 141, 255, 0.1);
+     background: color-mix(in srgb, var(--primary-color) 10%, transparent);
      color: var(--primary-color);
 }
  .button-label {
@@ -744,7 +744,7 @@
      display: inline-block;
      padding: 4px 8px;
      border-radius: 6px;
-     background: rgba(106, 141, 255, 0.1);
+     background: color-mix(in srgb, var(--primary-color) 10%, transparent);
      color: var(--primary-color);
      font-size: var(--font-size-xs);
      font-weight: 500;
@@ -1377,7 +1377,7 @@
      color: var(--text-light) !important;
 }
  body.dark-mode .history-item .actions button:hover {
-     background: rgba(106, 141, 255, 0.2) !important;
+     background: color-mix(in srgb, var(--primary-color) 20%, transparent) !important;
      color: var(--primary-color) !important;
 }
 /* 按钮标签文字 */
@@ -1387,7 +1387,7 @@
 }
 /* 格式标签深色模式 */
  body.dark-mode .format-tag {
-     background: rgba(106, 141, 255, 0.2);
+     background: color-mix(in srgb, var(--primary-color) 20%, transparent);
      color: var(--primary-color);
 }
 /* 清空历史按钮深色模式 */
@@ -1443,7 +1443,7 @@
      display: inline-block;
      padding: 4px 8px;
      border-radius: 6px;
-     background: rgba(106, 141, 255, 0.1);
+     background: color-mix(in srgb, var(--primary-color) 10%, transparent);
      color: var(--primary-color);
      font-size: var(--font-size-xs);
      font-weight: 500;

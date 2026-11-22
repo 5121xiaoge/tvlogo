@@ -309,7 +309,7 @@ body.dark-mode .speed-menu button {
 }
 
 .speed-menu button:hover {
-  background: rgba(106, 141, 255, 0.1);
+  background: color-mix(in srgb, var(--primary-color) 10%, transparent);
 }
 
 .speed-menu button.active-speed-btn {
@@ -451,7 +451,7 @@ body.dark-mode .upload-placeholder {
 
 .upload-placeholder.drag-over {
   border-color: var(--primary-color);
-  background: rgba(106, 141, 255, 0.1);
+  background: color-mix(in srgb, var(--primary-color) 10%, transparent);
 }
 
 .upload-placeholder.hidden {
@@ -595,7 +595,7 @@ body.dark-mode .input-group input[type="text"] {
 .input-group input[type="text"]:focus {
   border-color: var(--primary-color);
   outline: none;
-  box-shadow: 0 0 0 3px rgba(106, 141, 255, 0.2);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--primary-color) 20%, transparent);
 }
 
 .btn-group {
@@ -1726,7 +1726,7 @@ body.dark-mode .playlist-group-header {
 }
 
 .playlist-channel:hover {
-  background: rgba(106, 141, 255, 0.1);
+  background: color-mix(in srgb, var(--primary-color) 10%, transparent);
 }
 
 /* 修改频道 Logo 样式 */
@@ -1895,7 +1895,7 @@ body.dark-mode .btn-icon-small {
 }
 
 .btn-icon-small:hover {
-  background: rgba(106, 141, 255, 0.1);
+  background: color-mix(in srgb, var(--primary-color) 10%, transparent);
 }
 
 .playlist-controls {
@@ -2059,7 +2059,7 @@ body.dark-mode .drawer-content:hover {
 
 /* 正在播放的频道高亮样式 */
 .playlist-channel.playing-channel {
-  background: rgba(106, 141, 255, 0.15);
+  background: color-mix(in srgb, var(--primary-color) 15%, transparent);
   border-left: 3px solid var(--primary-color);
 }
 
@@ -2090,11 +2090,11 @@ body.dark-mode .drawer-content:hover {
 
 /* 深色模式下的高亮 */
 body.dark-mode .playlist-channel.playing-channel {
-  background: rgba(106, 141, 255, 0.2);
+  background: color-mix(in srgb, var(--primary-color) 20%, transparent);
 }
 
 body.dark-mode .playlist-channel.playing-channel .channel-name {
-  color: #8aabff;
+  color: color-mix(in srgb, var(--primary-color) 70%, #fff);
 }
 
 /* 线路选择器样式 */
@@ -2186,7 +2186,7 @@ body.dark-mode .line-badge {
 }
 
 .epg-replay-btn {
-  background: rgba(106, 141, 255, 0.15);
+  background: color-mix(in srgb, var(--primary-color) 15%, transparent);
   border: none;
   border-radius: 16px;
   padding: 4px 10px;
